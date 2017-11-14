@@ -63,7 +63,47 @@
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
 				<h1 id="querycraft">QueryCraft</h1>
-				<p>A simple abstraction for querying data</p>
+				<p>A simple abstraction for building queries in easy way</p>
+				<h2 id="installation">Installation</h2>
+				<pre><code class="lang-sh">npm install --save <span class="hljs-string">'querycraft'</span>
+</code></pre>
+				<h2 id="examples">Examples</h2>
+				<p>Suppose we have a collection of data that satisfies the interface</p>
+				<pre><code class="lang-ts"><span class="hljs-keyword">interface</span> contact {
+    id: <span class="hljs-built_in">string</span>
+    <span class="hljs-string">'list'</span>: { id: <span class="hljs-built_in">string</span> }[]
+    <span class="hljs-string">'list.id'</span>?: <span class="hljs-built_in">string</span>
+    <span class="hljs-string">'vacancy.id'</span>?: <span class="hljs-built_in">string</span>
+    firstName: <span class="hljs-built_in">string</span>
+    lastName: <span class="hljs-built_in">string</span>
+    email: <span class="hljs-built_in">string</span>
+    createdAt: <span class="hljs-built_in">Date</span>
+    customFields: { id: <span class="hljs-built_in">string</span>, value: <span class="hljs-built_in">number</span> }[]
+    assignedTo?: <span class="hljs-built_in">string</span>
+}
+</code></pre>
+				<p>If we want a query the describes the logic:-</p>
+				<pre><code>    <span class="hljs-keyword">first</span> <span class="hljs-number">50</span> items <span class="hljs-keyword">where</span>
+        fistName <span class="hljs-keyword">is</span> bob
+        lastName <span class="hljs-keyword">is</span> doyle OR <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">set</span>
+        assignedTo <span class="hljs-keyword">is</span> anything
+    sorted <span class="hljs-keyword">by</span> <span class="hljs-keyword">the</span> customField <span class="hljs-keyword">with</span> Id custom1
+    updated <span class="hljs-keyword">less than</span> <span class="hljs-number">5</span> days ago
+</code></pre><pre><code class="lang-ts"><span class="hljs-keyword">import</span> { FilterBuilder, eq, lt, neq, <span class="hljs-built_in">any</span>, find, where } <span class="hljs-keyword">from</span> <span class="hljs-string">'querycraft'</span>
+
+<span class="hljs-keyword">const</span> filter = <span class="hljs-keyword">new</span> FilterBuilder()
+.where(<span class="hljs-string">'firstName'</span>, eq(<span class="hljs-string">'bob'</span>))
+.where(<span class="hljs-string">'list'</span>, find(where(<span class="hljs-string">'id'</span>, eq(<span class="hljs-string">'list-1'</span>))))
+.where(<span class="hljs-string">'lastName'</span>, <span class="hljs-built_in">any</span>([
+    eq(<span class="hljs-string">'doyle'</span>),
+    eq(<span class="hljs-literal">null</span>)
+]))
+.where(<span class="hljs-string">'updatedAt'</span>, lt({ daysAgo: <span class="hljs-number">5</span> }))
+.where(<span class="hljs-string">'assignedTo'</span>, neq(<span class="hljs-literal">null</span>))
+.setSortFieldId(<span class="hljs-string">'customFields'</span>, <span class="hljs-string">'custom1'</span>, <span class="hljs-string">'value'</span>)
+.setSortDirection(<span class="hljs-string">'ASC'</span>)
+.setLimit(<span class="hljs-number">50</span>)
+</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

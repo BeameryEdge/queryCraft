@@ -1,6 +1,6 @@
 {
   "name": "querycraft",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Data query abstraction layer",
   "main": "dist/lib/index.js",
   "directories": {
@@ -16,7 +16,6 @@
     "serve:docs": "http-server -p 8000 docs/",
     "serve:cov": "http-server -p 8001 coverage/",
     "test": "mocha",
-    "posttest": "npm run docs",
     "test:cov": "nyc npm test",
     "posttest:cov": "nyc report"
   },

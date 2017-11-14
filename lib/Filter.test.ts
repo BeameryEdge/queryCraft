@@ -68,11 +68,11 @@ describe('FilterBuilder', function(){
         "sortDir": "ASC",
         "limit": 50
     }
-    it('should allow me to create a new filter: fistName is bob AND (lastName is doyle OR is not set) AND is assigned to anyone, sorted by the customField with Id custom1, updated less than 5 days ago',function(){
+    it('should allow me to create a new filter: first 50 items where fistName is bob AND (lastName is doyle OR is not set) AND is assigned to anyone, sorted by the customField with Id custom1, updated less than 5 days ago',function(){
         myFilter = new FilterBuilder()
         .where('firstName', eq('bob'))
         .where('list', find(where('id', eq('list-1'))))
-        .where('lastName', all([
+        .where('lastName', any([
             eq('doyle'),
             eq(null)
         ]))
@@ -92,7 +92,7 @@ describe('FilterBuilder', function(){
 
         const lastNameCondition = myFilter.getFieldCondition('lastName') as MatchCondition
         assert.ok(lastNameCondition)
-        assert.equal(lastNameCondition.op, 'ALL')
+        assert.equal(lastNameCondition.op, 'ANY')
         assert(Array.isArray(lastNameCondition.value))
 
         assert.equal(lastNameCondition.value[0].op, 'EQ')
@@ -102,6 +102,7 @@ describe('FilterBuilder', function(){
 
         assert.equal(myFilter.getSortFieldId(), 'customFields')
         assert.equal(myFilter.getSortDirection(), 'ASC')
+        assert.equal(myFilter.getLimit(), 50)
     })
 
     it('should turn the lastName condition into and any query and add an eq("Smith") condition',function(){
