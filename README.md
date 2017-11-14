@@ -16,7 +16,6 @@ Suppose we have a collection of data that satisfies the interface
 interface contact {
     id: string
     'list': { id: string }[]
-    'list.id'?: string
     'vacancy.id'?: string
     firstName: string
     lastName: string
@@ -33,7 +32,8 @@ If we want a query the describes the logic:-
         fistName is bob
         lastName is doyle OR is not set
         assignedTo is anything
-    sorted by the customField with Id custom1
+        list has an item where id is item1
+    sorted (in ascending order) by the value property of the customField where id is custom1
     updated less than 5 days ago
 ```
 
@@ -42,7 +42,7 @@ import { FilterBuilder, eq, lt, neq, any, find, where } from 'querycraft'
 
 const filter = new FilterBuilder()
 .where('firstName', eq('bob'))
-.where('list', find(where('id', eq('list-1'))))
+.where('list', find(where('id', eq('ite,1'))))
 .where('lastName', any([
     eq('doyle'),
     eq(null)
