@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "outDir": "dist",
+      "module": "commonjs",
+      "declaration": true,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "removeComments": false,
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "inlineSources": true
+    },
+    "exclude": [
+      "node_modules",
+      "dist",
+      "**/*.test.ts"
+    ]
+  }

@@ -1,0 +1,69 @@
+{
+  "name": "querycraft",
+  "version": "1.0.0",
+  "description": "Data query abstraction layer",
+  "main": "dist/lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "prebuild": "npm run test",
+    "build": "tsc",
+    "postbuild": "npm run docs",
+    "start": "mocha --watch",
+    "docs": "typedoc --excludeExternals --exclude '**/*.test.ts' --mode modules --theme node_modules/tui-jsdoc-template --out ./docs --tsconfig tsconfig.json lib/",
+    "serve:docs": "http-server -p 8000 docs/",
+    "serve:cov": "http-server -p 8001 coverage/",
+    "test": "mocha",
+    "posttest": "npm run docs",
+    "test:cov": "nyc npm test",
+    "posttest:cov": "nyc report"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BeameryHQ/QueryCraft.git"
+  },
+  "author": "Dayo Adeyemi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BeameryHQ/QueryCraft/issues"
+  },
+  "homepage": "https://github.com/BeameryHQ/QueryCraft#readme",
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.44",
+    "chai": "^4.1.2",
+    "http-server": "^0.10.0",
+    "install": "^0.10.1",
+    "mocha": "^4.0.1",
+    "npm": "^5.5.1",
+    "nyc": "^11.3.0",
+    "source-map-support": "^0.5.0",
+    "ts-node": "^3.3.0",
+    "tui-jsdoc-template": "^1.2.2",
+    "typedoc": "^0.9.0",
+    "typescript": "^2.6.1"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "include": [
+      "lib/**/*.ts"
+    ],
+    "exclude": [
+      "**/*.test.ts",
+      "**/*.d.ts",
+      "lib/index.ts"
+    ],
+    "reporter": [
+      "lcov"
+    ],
+    "all": true
+  },
+  "dependencies": {}
+}
