@@ -1,5 +1,7 @@
 # QueryCraft
 
+[![CircleCI](https://circleci.com/gh/BeameryHQ/QueryCraft.svg?style=svg)](https://circleci.com/gh/BeameryHQ/QueryCraft)
+
 A simple abstraction for building queries in easy way
 
 ## Installation
