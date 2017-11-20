@@ -49,7 +49,7 @@ jobs:
       - checkout
       - run:
           name: Build dist
-          command: tsc
+          command: npm run build
 
   deploy:
     docker:
