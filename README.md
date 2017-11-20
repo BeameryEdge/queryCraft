@@ -5,7 +5,7 @@
 [![npm version](https://badge.fury.io/js/querycraft.svg)](https://badge.fury.io/js/querycraft)
 [![CircleCI](https://circleci.com/gh/BeameryHQ/QueryCraft.svg?style=svg)](https://circleci.com/gh/BeameryHQ/QueryCraft)
 [![codecov](https://codecov.io/gh/BeameryHQ/QueryCraft/branch/master/graph/badge.svg)](https://codecov.io/gh/BeameryHQ/QueryCraft)
-[![David deps][https://david-dm.org/BeameryHQ/QueryCraft.svg]](https://david-dm.org/BeameryHQ/QueryCraft)
+[![David deps](https://david-dm.org/BeameryHQ/QueryCraft.svg)](https://david-dm.org/BeameryHQ/QueryCraft)
 [![Known Vulnerabilities](https://snyk.io/test/github/beameryhq/querycraft/badge.svg)](https://snyk.io/test/github/beameryhq/querycraft)
 
 ## Installation
