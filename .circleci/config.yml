@@ -40,6 +40,9 @@ jobs:
       - store_artifacts:
           path: coverage
           prefix: coverage
+      - run:
+          name: Update codecov.io
+          command: bash <(curl -s https://codecov.io/bash)
 
   deploy:
     docker:
