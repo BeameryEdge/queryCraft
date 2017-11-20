@@ -55,8 +55,6 @@ jobs:
     docker:
       - image: circleci/node:6.10.3
     working_directory: ~/repo
-    branches:
-        tags: /v[0-9]+(\.[0-9]+)*/
     steps:
       - checkout
       - run:
@@ -65,3 +63,24 @@ jobs:
       - run:
           name: Publish to NPM
           command: npm publish
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - install
+      - test:
+          requires:
+            - install
+      - build:
+          requires:
+            - test
+          filters:
+            branches:
+                tags: /v[0-9]+(\.[0-9]+)*/
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+                tags: /v[0-9]+(\.[0-9]+)*/
