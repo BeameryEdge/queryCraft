@@ -10,7 +10,6 @@ export interface IQuery {
 
 export abstract class AbstractQueryBuilder {
     protected abstract get data(): { [P in string]?: Condition }
-    protected abstract set data(condition: { [P in string]?: Condition })
     /**
      * Update the condition on a particular field by it's fieldId
      *

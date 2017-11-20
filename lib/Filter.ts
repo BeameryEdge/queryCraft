@@ -201,9 +201,7 @@ export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
     protected get data(): { [P in string]?: Condition } {
         return this._statements[0][0].data
     }
-    protected set data(data){
-        this._statements[0][0].data = data
-    }
+
     /**
      *
      * @override
