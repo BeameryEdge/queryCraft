@@ -8,6 +8,10 @@
 [![David deps](https://david-dm.org/BeameryHQ/QueryCraft.svg)](https://david-dm.org/BeameryHQ/QueryCraft)
 [![Known Vulnerabilities](https://snyk.io/test/github/beameryhq/querycraft/badge.svg)](https://snyk.io/test/github/beameryhq/querycraft)
 
+## Docs
+
+View [API Documentation](https://beameryhq.github.io/QueryCraft/classes/_filter_.filterbuilder.html)
+
 ## Installation
 
 ```sh

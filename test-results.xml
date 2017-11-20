@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.023000000000000003" tests="48" failures="0">
+  <testsuite name="Root Suite" timestamp="2017-11-20T13:23:41" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Conditions" timestamp="2017-11-20T13:23:41" tests="0" file="/Users/dev/src/QueryCraft/lib/Conditions.test.ts" failures="0" time="0">
+  </testsuite>
+  <testsuite name="any" timestamp="2017-11-20T13:23:41" tests="2" file="/Users/dev/src/QueryCraft/lib/Conditions.test.ts" failures="0" time="0.003">
+    <testcase name="Conditions any should be converted to json" time="0.002" classname="should be converted to json">
+    </testcase>
+    <testcase name="Conditions any should be converted from json" time="0.001" classname="should be converted from json">
+    </testcase>
+  </testsuite>
+  <testsuite name="all" timestamp="2017-11-20T13:23:41" tests="2" file="/Users/dev/src/QueryCraft/lib/Conditions.test.ts" failures="0" time="0">
+    <testcase name="Conditions all should be converted to json" time="0" classname="should be converted to json">
+    </testcase>
+    <testcase name="Conditions all should be converted from json" time="0" classname="should be converted from json">
+    </testcase>
+  </testsuite>
+  <testsuite name="eq" timestamp="2017-11-20T13:23:41" tests="2" file="/Users/dev/src/QueryCraft/lib/Conditions.test.ts" failures="0" time="0">
+    <testcase name="Conditions eq should be converted to json" time="0" classname="should be converted to json">
+    </testcase>
+    <testcase name="Conditions eq should be converted from json" time="0" classname="should be converted from json">
+    </testcase>
+  </testsuite>
+  <testsuite name="neq" timestamp="2017-11-20T13:23:41" tests="2" file="/Users/dev/src/QueryCraft/lib/Conditions.test.ts" failures="0" time="0">
+    <testcase name="Conditions neq should be converted to json" time="0" classname="should be converted to json">
+    </testcase>
+    <testcase name="Conditions neq should be converted from json" time="0" classname="should be converted from json">
+    </testcase>
+  </testsuite>
+  <testsuite name="lt" timestamp="2017-11-20T13:23:41" tests="2" file="/Users/dev/src/QueryCraft/lib/Conditions.test.ts" failures="0" time="0">
+    <testcase name="Conditions lt should be converted to json" time="0" classname="should be converted to json">
+    </testcase>
+    <testcase name="Conditions lt should be converted from json" time="0" classname="should be converted from json">
+    </testcase>
+  </testsuite>
+  <testsuite name="gt" timestamp="2017-11-20T13:23:41" tests="2" file="/Users/dev/src/QueryCraft/lib/Conditions.test.ts" failures="0" time="0">
+    <testcase name="Conditions gt should be converted to json" time="0" classname="should be converted to json">
+    </testcase>
+    <testcase name="Conditions gt should be converted from json" time="0" classname="should be converted from json">
+    </testcase>
+  </testsuite>
+  <testsuite name="lte" timestamp="2017-11-20T13:23:41" tests="2" file="/Users/dev/src/QueryCraft/lib/Conditions.test.ts" failures="0" time="0.001">
+    <testcase name="Conditions lte should be converted to json" time="0" classname="should be converted to json">
+    </testcase>
+    <testcase name="Conditions lte should be converted from json" time="0.001" classname="should be converted from json">
+    </testcase>
+  </testsuite>
+  <testsuite name="gte" timestamp="2017-11-20T13:23:41" tests="2" file="/Users/dev/src/QueryCraft/lib/Conditions.test.ts" failures="0" time="0">
+    <testcase name="Conditions gte should be converted to json" time="0" classname="should be converted to json">
+    </testcase>
+    <testcase name="Conditions gte should be converted from json" time="0" classname="should be converted from json">
+    </testcase>
+  </testsuite>
+  <testsuite name="prefix" timestamp="2017-11-20T13:23:41" tests="2" file="/Users/dev/src/QueryCraft/lib/Conditions.test.ts" failures="0" time="0.001">
+    <testcase name="Conditions prefix should be converted to json" time="0" classname="should be converted to json">
+    </testcase>
+    <testcase name="Conditions prefix should be converted from json" time="0.001" classname="should be converted from json">
+    </testcase>
+  </testsuite>
+  <testsuite name="find" timestamp="2017-11-20T13:23:41" tests="2" file="/Users/dev/src/QueryCraft/lib/Conditions.test.ts" failures="0" time="0.001">
+    <testcase name="Conditions find should be converted to json" time="0.001" classname="should be converted to json">
+    </testcase>
+    <testcase name="Conditions find should be converted from json" time="0" classname="should be converted from json">
+    </testcase>
+  </testsuite>
+  <testsuite name="nfind" timestamp="2017-11-20T13:23:41" tests="2" file="/Users/dev/src/QueryCraft/lib/Conditions.test.ts" failures="0" time="0.002">
+    <testcase name="Conditions nfind should be converted to json" time="0.001" classname="should be converted to json">
+    </testcase>
+    <testcase name="Conditions nfind should be converted from json" time="0.001" classname="should be converted from json">
+    </testcase>
+  </testsuite>
+  <testsuite name="conditionFromJSON" timestamp="2017-11-20T13:23:41" tests="1" file="/Users/dev/src/QueryCraft/lib/Conditions.test.ts" failures="0" time="0.002">
+    <testcase name="Conditions conditionFromJSON should throw if op doesn&apos;t exist" time="0.002" classname="should throw if op doesn&apos;t exist">
+    </testcase>
+  </testsuite>
+  <testsuite name="FilterBuilder" timestamp="2017-11-20T13:23:41" tests="2" file="/Users/dev/src/QueryCraft/lib/Filter.test.ts" failures="0" time="0.001">
+    <testcase name="FilterBuilder should allow me to create a new filter: first 50 items where fistName is bob AND (lastName is doyle OR is not set) AND is assigned to anyone, sorted by the customField with Id custom1, updated less than 5 days ago" time="0.001" classname="should allow me to create a new filter: first 50 items where fistName is bob AND (lastName is doyle OR is not set) AND is assigned to anyone, sorted by the customField with Id custom1, updated less than 5 days ago">
+    </testcase>
+    <testcase name="FilterBuilder should turn the lastName condition into and any query and add an eq(&quot;Smith&quot;) condition" time="0" classname="should turn the lastName condition into and any query and add an eq(&quot;Smith&quot;) condition">
+    </testcase>
+  </testsuite>
+  <testsuite name=".toJSON" timestamp="2017-11-20T13:23:41" tests="1" file="/Users/dev/src/QueryCraft/lib/Filter.test.ts" failures="0" time="0.002">
+    <testcase name="FilterBuilder .toJSON should create JSON objects for saving in the DB" time="0.002" classname="should create JSON objects for saving in the DB">
+    </testcase>
+  </testsuite>
+  <testsuite name=".toString.toQueryString" timestamp="2017-11-20T13:23:41" tests="1" file="/Users/dev/src/QueryCraft/lib/Filter.test.ts" failures="0" time="0.001">
+    <testcase name="FilterBuilder .toString.toQueryString should create query strings for making queries to the API" time="0.001" classname="should create query strings for making queries to the API">
+    </testcase>
+  </testsuite>
+  <testsuite name=".fromJSON" timestamp="2017-11-20T13:23:41" tests="1" file="/Users/dev/src/QueryCraft/lib/Filter.test.ts" failures="0" time="0.001">
+    <testcase name="FilterBuilder .fromJSON should create filter objects from JSON" time="0.001" classname="should create filter objects from JSON">
+    </testcase>
+  </testsuite>
+  <testsuite name=".or" timestamp="2017-11-20T13:23:41" tests="1" file="/Users/dev/src/QueryCraft/lib/Filter.test.ts" failures="0" time="0.001">
+    <testcase name="FilterBuilder .or should add a query to the current statement" time="0.001" classname="should add a query to the current statement">
+    </testcase>
+  </testsuite>
+  <testsuite name=".and" timestamp="2017-11-20T13:23:41" tests="1" file="/Users/dev/src/QueryCraft/lib/Filter.test.ts" failures="0" time="0.001">
+    <testcase name="FilterBuilder .and should start a new statement with one empty query" time="0.001" classname="should start a new statement with one empty query">
+    </testcase>
+  </testsuite>
+  <testsuite name=".clone" timestamp="2017-11-20T13:23:41" tests="1" file="/Users/dev/src/QueryCraft/lib/Filter.test.ts" failures="0" time="0.001">
+    <testcase name="FilterBuilder .clone should create shallow clone" time="0.001" classname="should create shallow clone">
+    </testcase>
+  </testsuite>
+  <testsuite name=".setStatementBuilder" timestamp="2017-11-20T13:23:41" tests="3" file="/Users/dev/src/QueryCraft/lib/Filter.test.ts" failures="0" time="0">
+    <testcase name="FilterBuilder .setStatementBuilder should be able to add statements to the filter" time="0" classname="should be able to add statements to the filter">
+    </testcase>
+    <testcase name="FilterBuilder .setStatementBuilder should throw if no statements are set" time="0" classname="should throw if no statements are set">
+    </testcase>
+    <testcase name="FilterBuilder .setStatementBuilder should throw if a statement is added with no queries" time="0" classname="should throw if a statement is added with no queries">
+    </testcase>
+  </testsuite>
+  <testsuite name=".createPaginatedFilter" timestamp="2017-11-20T13:23:41" tests="7" file="/Users/dev/src/QueryCraft/lib/Filter.test.ts" failures="0" time="0.003">
+    <testcase name="FilterBuilder .createPaginatedFilter should return a new object" time="0.001" classname="should return a new object">
+    </testcase>
+    <testcase name="FilterBuilder .createPaginatedFilter should not modify the original filter" time="0.001" classname="should not modify the original filter">
+    </testcase>
+    <testcase name="FilterBuilder .createPaginatedFilter should not modify filter if no object is passed in" time="0" classname="should not modify filter if no object is passed in">
+    </testcase>
+    <testcase name="FilterBuilder .createPaginatedFilter should add a statement that checks the page has been increased, checking on id when there is a clash" time="0" classname="should add a statement that checks the page has been increased, checking on id when there is a clash">
+    </testcase>
+    <testcase name="FilterBuilder .createPaginatedFilter should respect the sort order" time="0" classname="should respect the sort order">
+    </testcase>
+    <testcase name="FilterBuilder .createPaginatedFilter should treat a nested field that doesn&apos;t exist as null" time="0.001" classname="should treat a nested field that doesn&apos;t exist as null">
+    </testcase>
+    <testcase name="FilterBuilder .createPaginatedFilter should extract the value from a nested field" time="0" classname="should extract the value from a nested field">
+    </testcase>
+  </testsuite>
+  <testsuite name="QueryBuilder" timestamp="2017-11-20T13:23:41" tests="0" file="/Users/dev/src/QueryCraft/lib/Query.test.ts" failures="0" time="0">
+  </testsuite>
+  <testsuite name=".where" timestamp="2017-11-20T13:23:41" tests="1" file="/Users/dev/src/QueryCraft/lib/Query.test.ts" failures="0" time="0.001">
+    <testcase name="QueryBuilder .where updates the field condition" time="0.001" classname="updates the field condition">
+    </testcase>
+  </testsuite>
+  <testsuite name=".getFieldIds" timestamp="2017-11-20T13:23:41" tests="1" file="/Users/dev/src/QueryCraft/lib/Query.test.ts" failures="0" time="0">
+    <testcase name="QueryBuilder .getFieldIds should get the list of fields with conditions applied" time="0" classname="should get the list of fields with conditions applied">
+    </testcase>
+  </testsuite>
+  <testsuite name=".getFieldCondition" timestamp="2017-11-20T13:23:41" tests="1" file="/Users/dev/src/QueryCraft/lib/Query.test.ts" failures="0" time="0">
+    <testcase name="QueryBuilder .getFieldCondition should get the field condition for a field" time="0" classname="should get the field condition for a field">
+    </testcase>
+  </testsuite>
+  <testsuite name=".removeFieldCondition" timestamp="2017-11-20T13:23:41" tests="1" file="/Users/dev/src/QueryCraft/lib/Query.test.ts" failures="0" time="0">
+    <testcase name="QueryBuilder .removeFieldCondition should remove the field condition for a field" time="0" classname="should remove the field condition for a field">
+    </testcase>
+  </testsuite>
+  <testsuite name=".mapFieldConditions" timestamp="2017-11-20T13:23:41" tests="1" file="/Users/dev/src/QueryCraft/lib/Query.test.ts" failures="0" time="0.001">
+    <testcase name="QueryBuilder .mapFieldConditions should remove the field condition for a field" time="0.001" classname="should remove the field condition for a field">
+    </testcase>
+  </testsuite>
+  <testsuite name=".fromJSON" timestamp="2017-11-20T13:23:41" tests="1" file="/Users/dev/src/QueryCraft/lib/Query.test.ts" failures="0" time="0">
+    <testcase name="QueryBuilder .fromJSON should create a query object from json" time="0" classname="should create a query object from json">
+    </testcase>
+  </testsuite>
+  <testsuite name=".toJSON" timestamp="2017-11-20T13:23:41" tests="1" file="/Users/dev/src/QueryCraft/lib/Query.test.ts" failures="0" time="0">
+    <testcase name="QueryBuilder .toJSON should create a query object from json" time="0" classname="should create a query object from json">
+    </testcase>
+  </testsuite>
+</testsuites>
