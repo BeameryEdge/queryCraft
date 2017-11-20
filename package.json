@@ -11,11 +11,11 @@
     "prebuild": "npm run test",
     "build": "tsc",
     "postbuild": "npm run docs",
-    "start": "mocha --watch",
+    "start": "mocha --watch --require ts-node/register --require source-map-support/register --full-trace --bail lib/*.test.ts",
     "docs": "typedoc --excludeExternals --exclude '**/*.test.ts' --mode modules --theme node_modules/tui-jsdoc-template --out ./docs --tsconfig tsconfig.json lib/",
     "serve:docs": "http-server -p 8000 docs/",
     "serve:cov": "http-server -p 8001 coverage/",
-    "test": "mocha",
+    "test": "mocha --require ts-node/register --require source-map-support/register --full-trace --bail lib/*.test.ts",
     "test:cov": "nyc npm test",
     "posttest:cov": "nyc report"
   },
