@@ -2,7 +2,7 @@
   "name": "querycraft",
   "version": "0.0.1",
   "description": "Data query abstraction layer",
-  "main": "dist/lib/index.js",
+  "main": "dist/index.js",
   "directories": {
     "lib": "lib",
     "test": "test"
