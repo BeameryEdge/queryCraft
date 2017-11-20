@@ -16,7 +16,7 @@
     "postdocs": "touch docs/.nojekyll",
     "serve:docs": "http-server -p 8000 docs/",
     "serve:cov": "http-server -p 8001 coverage/",
-    "test": "mocha",
+    "test": "node --version && mocha",
     "test:cov": "nyc npm test",
     "posttest:cov": "nyc report"
   },
