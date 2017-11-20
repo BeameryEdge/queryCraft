@@ -1,6 +1,6 @@
 {
   "name": "querycraft",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Data query abstraction layer",
   "main": "dist/index.js",
   "directories": {
