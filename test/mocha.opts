@@ -2,5 +2,4 @@
 --require source-map-support/register
 --full-trace
 --bail
---reporter mocha-junit-reporter
 lib/*.test.ts
