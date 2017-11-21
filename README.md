@@ -10,7 +10,7 @@
 
 ## Docs
 
-View [API Documentation](https://beameryhq.github.io/QueryCraft/classes/_filter_.filterbuilder.html)
+View [API Documentation](https://beameryhq.github.io/QueryCraft)
 
 ## Installation
 
