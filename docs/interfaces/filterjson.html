@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IFilter | querycraft</title>
+	<title>FilterJSON | querycraft</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
@@ -908,25 +908,25 @@ img { max-width: 100%; }
 <nav class="tsd-navigation secondary">
 	<ul>
 		<li class="current tsd-kind-interface">
-			<a href="ifilter.html" class="tsd-kind-icon">IFilter</a>
+			<a href="filterjson.html" class="tsd-kind-icon">FilterJSON</a>
 			<ul>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="ifilter.html#limit" class="tsd-kind-icon">limit</a>
+					<a href="filterjson.html#limit" class="tsd-kind-icon">limit</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="ifilter.html#sortdir" class="tsd-kind-icon">sort<wbr>Dir</a>
+					<a href="filterjson.html#sortdir" class="tsd-kind-icon">sort<wbr>Dir</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="ifilter.html#sortfieldid" class="tsd-kind-icon">sort<wbr>Field<wbr>Id</a>
+					<a href="filterjson.html#sortfieldid" class="tsd-kind-icon">sort<wbr>Field<wbr>Id</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="ifilter.html#sortfieldsubid" class="tsd-kind-icon">sort<wbr>Field<wbr>Sub<wbr>Id</a>
+					<a href="filterjson.html#sortfieldsubid" class="tsd-kind-icon">sort<wbr>Field<wbr>Sub<wbr>Id</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="ifilter.html#sortfieldsubprop" class="tsd-kind-icon">sort<wbr>Field<wbr>Sub<wbr>Prop</a>
+					<a href="filterjson.html#sortfieldsubprop" class="tsd-kind-icon">sort<wbr>Field<wbr>Sub<wbr>Prop</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="ifilter.html#statements" class="tsd-kind-icon">statements</a>
+					<a href="filterjson.html#statements" class="tsd-kind-icon">statements</a>
 				</li>
 			</ul>
 		</li>
@@ -942,17 +942,17 @@ img { max-width: 100%; }
 				</div>
 				<p>it contains information about the logic of the filter it represents and any filters
 				or sorts that should be applied.</p>
-				<p>The filter that should be applied is described by the <a href="ifilter.html#statements">statements</a>
+				<p>The filter that should be applied is described by the <a href="filterjson.html#statements">statements</a>
 					property which is an Array of <a href="../globals.html#statement">statements</a> of which all the
 					statement must hold. Each statement is a list of queries of which at least one
 					must hold. If one thinks of the queries as a logical clause then we can think of
 				this structure represent a logical formula in <a href="https://en.wikipedia.org/wiki/Conjunctive_normal_form" class="external">conjunctive normal form</a>.</p>
 				<dl class="tsd-comment-tags">
 					<dt>interface</dt>
-					<dd><p>IFilter
+					<dd><p>FilterJSON
 						Example:-</p>
 						<pre><code class="lang-ts">
-  <span class="hljs-keyword">let</span> json: IFilter = {
+  <span class="hljs-keyword">let</span> json: FilterJSON = {
       <span class="hljs-string">"statements"</span>: [
           [{
               <span class="hljs-string">"firstName"</span>: {
@@ -1008,7 +1008,7 @@ img { max-width: 100%; }
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
 				<li>
-					<span class="target">IFilter</span>
+					<span class="target">FilterJSON</span>
 				</li>
 			</ul>
 		</section>
@@ -1025,12 +1025,12 @@ img { max-width: 100%; }
 					<section class="tsd-index-section ">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ifilter.html#limit" class="tsd-kind-icon">limit</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ifilter.html#sortdir" class="tsd-kind-icon">sort<wbr>Dir</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ifilter.html#sortfieldid" class="tsd-kind-icon">sort<wbr>Field<wbr>Id</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ifilter.html#sortfieldsubid" class="tsd-kind-icon">sort<wbr>Field<wbr>Sub<wbr>Id</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ifilter.html#sortfieldsubprop" class="tsd-kind-icon">sort<wbr>Field<wbr>Sub<wbr>Prop</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ifilter.html#statements" class="tsd-kind-icon">statements</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filterjson.html#limit" class="tsd-kind-icon">limit</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filterjson.html#sortdir" class="tsd-kind-icon">sort<wbr>Dir</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filterjson.html#sortfieldid" class="tsd-kind-icon">sort<wbr>Field<wbr>Id</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filterjson.html#sortfieldsubid" class="tsd-kind-icon">sort<wbr>Field<wbr>Sub<wbr>Id</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filterjson.html#sortfieldsubprop" class="tsd-kind-icon">sort<wbr>Field<wbr>Sub<wbr>Prop</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filterjson.html#statements" class="tsd-kind-icon">statements</a></li>
 						</ul>
 					</section>
 				</div>
@@ -1044,7 +1044,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">limit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/cc9e35b/lib/Filter.ts#L119">Filter.ts:119</a></li>
+						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Filter.ts#L119">Filter.ts:119</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1060,7 +1060,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">sort<wbr>Dir<span class="tsd-signature-symbol">:</span> <a href="../globals.html#sortdirection" class="tsd-signature-type">SortDirection</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/cc9e35b/lib/Filter.ts#L101">Filter.ts:101</a></li>
+						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Filter.ts#L101">Filter.ts:101</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1075,7 +1075,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">sort<wbr>Field<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/cc9e35b/lib/Filter.ts#L96">Filter.ts:96</a></li>
+						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Filter.ts#L96">Filter.ts:96</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1090,7 +1090,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">sort<wbr>Field<wbr>Sub<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/cc9e35b/lib/Filter.ts#L107">Filter.ts:107</a></li>
+						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Filter.ts#L107">Filter.ts:107</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1106,7 +1106,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">sort<wbr>Field<wbr>Sub<wbr>Prop<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/cc9e35b/lib/Filter.ts#L113">Filter.ts:113</a></li>
+						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Filter.ts#L113">Filter.ts:113</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1122,7 +1122,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">statements<span class="tsd-signature-symbol">:</span> <a href="../globals.html#statementjson" class="tsd-signature-type">StatementJSON</a><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/cc9e35b/lib/Filter.ts#L91">Filter.ts:91</a></li>
+						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Filter.ts#L91">Filter.ts:91</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">

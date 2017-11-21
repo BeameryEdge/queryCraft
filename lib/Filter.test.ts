@@ -1,6 +1,6 @@
 import "mocha"
 import { assert } from "chai"
-import { IFilter, FilterBuilder } from './Filter'
+import { FilterJSON, FilterBuilder } from './Filter'
 import { where } from './Query'
 import { eq, find, any, all, lt, neq, Condition, MatchCondition } from './Conditions'
 import * as querystring from 'querystring'
@@ -21,7 +21,7 @@ interface contact {
 
 describe('FilterBuilder', function(){
     let myFilter: FilterBuilder
-    let json: IFilter = {
+    let json: FilterJSON = {
         "statements": [
             [{
                 "firstName": {

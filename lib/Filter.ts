@@ -22,19 +22,19 @@ export type Statement = QueryBuilder[]
  * it contains information about the logic of the filter it represents and any filters
  * or sorts that should be applied.
  *
- * The filter that should be applied is described by the [statements]{@link IFilter.statements}
+ * The filter that should be applied is described by the [statements]{@link FilterJSON.statements}
  * property which is an Array of [statements]{@link Statement} of which all the
  * statement must hold. Each statement is a list of queries of which at least one
  * must hold. If one thinks of the queries as a logical clause then we can think of
  * this structure represent a logical formula in [conjunctive normal form]{@link https://en.wikipedia.org/wiki/Conjunctive_normal_form}.
  *
  *
- * @interface IFilter
+ * @interface FilterJSON
  * Example:-
  *
  * ```ts
  *
- *   let json: IFilter = {
+ *   let json: FilterJSON = {
  *       "statements": [
  *           [{
  *               "firstName": {
@@ -83,7 +83,7 @@ export type Statement = QueryBuilder[]
  *   }
  *   ```
  */
-export interface IFilter {
+export interface FilterJSON {
     /**
      * The list of statements which filter must apply
      *
@@ -139,7 +139,7 @@ export interface Datum {
  * ```
  *
  */
-export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
+export class FilterBuilder extends AbstractQueryBuilder implements FilterJSON {
     /**
      * This is the maximum number of items the filter should allow to be
      * returned
@@ -149,27 +149,27 @@ export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
     limit = 100
 
     /**
-     * see [IFilter.sortDir]{@link IFilter.sortDir}
+     * see [FilterJSON.sortDir]{@link FilterJSON.sortDir}
      *
      */
     sortDir: SortDirection = 'DESC'
     /**
-     * see [IFilter.sortFieldId]{@link IFilter.sortFieldId}
+     * see [FilterJSON.sortFieldId]{@link FilterJSON.sortFieldId}
      *
      */
     sortFieldId: string = 'id'
     /**
-     * see [IFilter.sortFieldSubId]{@link IFilter.sortFieldSubId}
+     * see [FilterJSON.sortFieldSubId]{@link FilterJSON.sortFieldSubId}
      *
      */
     sortFieldSubId?: string
     /**
-     * see [IFilter.sortFieldSubProp]{@link IFilter.sortFieldSubProp}
+     * see [FilterJSON.sortFieldSubProp]{@link FilterJSON.sortFieldSubProp}
      *
      */
     sortFieldSubProp?: string
     /**
-     * see [IFilter.statements]{@link IFilter.statements}
+     * see [FilterJSON.statements]{@link FilterJSON.statements}
      *
      * @override
      */
@@ -357,7 +357,7 @@ export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
         return this.setStatements(this.getStatements().concat([statement]))
     }
 
-    static fromJSON<T extends { id: string }>(json: IFilter){ return Object.assign(new FilterBuilder(), json) }
+    static fromJSON<T extends { id: string }>(json: FilterJSON){ return Object.assign(new FilterBuilder(), json) }
     getLimit(){ return this.limit }
     setLimit(limit: number){ this.limit = limit; return this }
 
@@ -384,12 +384,12 @@ export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
     /**
      * return a JSON data representation in the internal data struture
      */
-    toJSON(): IFilter {
+    toJSON(): FilterJSON {
         const json = {
             statements: this.statements,
             sortDir: this.sortDir,
             limit: this.limit
-        } as IFilter
+        } as FilterJSON
 
         if (this.sortFieldId !== undefined){
             json.sortFieldId = this.sortFieldId
