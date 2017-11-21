@@ -75,6 +75,6 @@ workflows:
             - test
           filters:
             branches:
-              only: master
+              ignore: /.*/
             tags:
               only: /^v[0-9]+(\.[0-9]+)*$/
