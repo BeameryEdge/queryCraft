@@ -1,7 +1,7 @@
 import {BasicValue} from './Values'
 import {OrderOperation} from './Operations'
 import {Condition, find, eq, gt, lt} from './Conditions'
-import {IQuery, QueryBuilder, AbstractQueryBuilder, where} from './Query'
+import {QueryJSON, QueryBuilder, AbstractQueryBuilder, where} from './Query'
 
 export type SortDirection = 'ASC' | 'DESC'
 
@@ -9,11 +9,11 @@ export type SortDirection = 'ASC' | 'DESC'
  * Inteface for the the json representations of a statement which is conceptually
  * a list of queries of which at least one must be true
  */
-export type Statement = IQuery[]
+export type StatementJSON = QueryJSON[]
 /**
- * A StatementBuilder is a non-empty list of [QueryBuilder]{@link QueryBuilder} instances
+ * A Statement is a non-empty list of [QueryBuilder]{@link QueryBuilder} instances
  */
-export type StatementBuilder = QueryBuilder[]
+export type Statement = QueryBuilder[]
 
 /**
  * Interface for the json representation of a filter
@@ -22,15 +22,15 @@ export type StatementBuilder = QueryBuilder[]
  * it contains information about the logic of the filter it represents and any filters
  * or sorts that should be applied.
  *
- * The filter that should be applied is described by the [statements]{@link IFilter#statements}
+ * The filter that should be applied is described by the [statements]{@link IFilter.statements}
  * property which is an Array of [statements]{@link Statement} of which all the
  * statement must hold. Each statement is a list of queries of which at least one
  * must hold. If one thinks of the queries as a logical clause then we can think of
  * this structure represent a logical formula in [conjunctive normal form]{@link https://en.wikipedia.org/wiki/Conjunctive_normal_form}.
  *
- * @export
+ *
  * @interface IFilter
- * @example
+ * Example:-
  *
  * ```ts
  *
@@ -87,46 +87,34 @@ export interface IFilter {
     /**
      * The list of statements which filter must apply
      *
-     * @type {IStatement[]}
-     * @memberOf IFilter
      */
-    statements: Statement[]
+    statements: StatementJSON[]
     /**
      * field Id for the filter to sort on
      *
-     * @type {string}
-     * @memberOf IFilter
      */
     sortFieldId?: string
     /**
      * Direction of sort
      *
-     * @type {SortDirection}
-     * @memberOf IFilter
      */
     sortDir: SortDirection
     /**
      * If sorting on a nested field, this is the id of the nested object
      * to use for sorting
      *
-     * @type {string}
-     * @memberOf IFilter
      */
     sortFieldSubId?: string
     /**
      * If sorting on a nested field, this is the field in the nested object
      * to sort on
      *
-     * @type {string}
-     * @memberOf IFilter
      */
     sortFieldSubProp?: string
     /**
      * This is the maximum number of items the filter should allow to be
      * returned
      *
-     * @type {number}
-     * @memberOf IFilter
      */
     limit: number
 }
@@ -138,11 +126,7 @@ export interface Datum {
 /**
  * Filter builder class, used to create filter objects that can be converted into queries
  *
- * @export
- * @class FilterBuilder
- * @extends {AbstractQueryBuilder}
- * @implements {IFilter}
- * @example
+ * Example:-
  *
  * ```ts
  *
@@ -156,15 +140,55 @@ export interface Datum {
  *
  */
 export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
+    /**
+     * This is the maximum number of items the filter should allow to be
+     * returned
+     *
+     * @default 100
+     */
     limit = 100
 
+    /**
+     * see [IFilter.sortDir]{@link IFilter.sortDir}
+     *
+     */
+    sortDir: SortDirection = 'DESC'
+    /**
+     * see [IFilter.sortFieldId]{@link IFilter.sortFieldId}
+     *
+     */
+    sortFieldId: string = 'id'
+    /**
+     * see [IFilter.sortFieldSubId]{@link IFilter.sortFieldSubId}
+     *
+     */
+    sortFieldSubId?: string
+    /**
+     * see [IFilter.sortFieldSubProp]{@link IFilter.sortFieldSubProp}
+     *
+     */
+    sortFieldSubProp?: string
+    /**
+     * see [IFilter.statements]{@link IFilter.statements}
+     *
+     * @override
+     */
+    get statements(): StatementJSON[] {
+        return this._statements
+                .map(options => options
+                    .map(query => query.toJSON()))
+    }
+    set statements(statements: StatementJSON[]){
+        this.setStatements(statements
+                .map(options => options
+                    .map(query => QueryBuilder.fromJSON(query))))
+    }
     /**
      * Creates a shallow clone of the FilterBuilder instance
      *
      * @returns {FilterBuilder}
      *
-     * @memberOf FilterBuilder
-     * @example
+     * Example:-
      *
      * ```ts
      *
@@ -190,34 +214,16 @@ export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
         })
     }
 
-    private _statements = [[new QueryBuilder()]] as QueryBuilder[][]
+    private _statements = [[new QueryBuilder()]] as Statement[]
     /**
      *
      * @override
      * @protected
-     * @type {{ [P in string]?: Condition }}
-     * @memberOf FilterBuilder
      */
     protected get data(): { [P in string]?: Condition } {
         return this._statements[0][0].data
     }
 
-    /**
-     *
-     * @override
-     * @type {IStatement[]}
-     * @memberOf FilterBuilder
-     */
-    get statements(): Statement[] {
-        return this._statements
-                .map(options => options
-                    .map(query => query.toJSON()))
-    }
-    set statements(statements: Statement[]){
-        this.setStatementBuilders(statements
-                .map(options => options
-                    .map(query => QueryBuilder.fromJSON(query))))
-    }
     /**
      * Extends the current active statement with a new query which becomes the active
      * query and `where` statements then apply to the new query until `.and`/`.or` is
@@ -225,8 +231,7 @@ export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
      *
      * @returns {this} returns the current filter builder for chaining
      *
-     * @memberOf FilterBuilder
-     * @example
+     * Example:-
      *
      * ```ts
      *
@@ -258,8 +263,7 @@ export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
      *
      * @returns {this} returns the current filter builder for chaining
      *
-     * @memberOf FilterBuilder
-     * @example
+     * Example:-
      *
      * ```ts
      *
@@ -289,18 +293,16 @@ export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
      *
      * @returns {Statements[]}
      *
-     * @memberOf FilterBuilder
      */
-    getStatementBuilders(){ return this._statements }
+    getStatements(){ return this._statements }
 
     /**
      * Set the statements object for the filter builder
      *
-     * @param {QueryBuilder[][]} statements
+     * @param {Statement[]} statements
      * @returns
-     * @example
+     * Example:-
      *
-     * @memberOf FilterBuilder
      *
      * ```ts
      *
@@ -331,7 +333,7 @@ export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
      *
      * ```
      */
-    setStatementBuilders(statements: StatementBuilder[]){
+    setStatements(statements: Statement[]){
         if (!Array.isArray(statements) || statements.length === 0) {
             throw new Error('A filter must have at least one statement')
         }
@@ -345,24 +347,20 @@ export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
         return this
     }
     /**
-     * Add a new StatementBuilder to the class
+     * Add a new Statement to the class
      *
-     * @param {StatementBuilder} sb
+     * @param {Statement} statement
      * @returns
      *
-     * @memberOf FilterBuilder
      */
-    addStatementBuilder(sb: StatementBuilder){
-        return this.setStatementBuilders(this.getStatementBuilders().concat([sb]))
+    addStatement(statement: Statement){
+        return this.setStatements(this.getStatements().concat([statement]))
     }
 
     static fromJSON<T extends { id: string }>(json: IFilter){ return Object.assign(new FilterBuilder(), json) }
     getLimit(){ return this.limit }
     setLimit(limit: number){ this.limit = limit; return this }
 
-    sortFieldId: string = 'id'
-    sortFieldSubId?: string
-    sortFieldSubProp?: string
     getSortFieldId(): string { return this.sortFieldId }
     getSortFieldSubId(): string | null { return this.sortFieldSubId || null }
     getSortFieldSubProp(): string | null { return this.sortFieldSubProp || null }
@@ -374,7 +372,6 @@ export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
      * @param {string} [sortFieldSubProp] the property that needs to be sorted on
      * @returns {Filter}
      *
-     * @memberOf Filter
      */
     setSortFieldId(fieldId: string, sortFieldSubId?: string, sortFieldSubProp?: string): FilterBuilder {
         this.sortFieldId = fieldId;
@@ -382,7 +379,6 @@ export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
         this.sortFieldSubProp = sortFieldSubProp;
         return this }
 
-    sortDir: SortDirection = 'DESC'
     getSortDirection(): SortDirection { return this.sortDir }
     setSortDirection(dir: SortDirection): FilterBuilder { this.sortDir = dir; return this }
     /**
@@ -451,7 +447,7 @@ export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
                     .find($ => $ && ($.id as string) === sortFieldSubId) as Datum | undefined
                 const sortFieldSubValue = ((subProp && subProp[sortFieldSubProp]) || null) as BasicValue
 
-                return this.clone().addStatementBuilder([
+                return this.clone().addStatement([
                     // filter items below list item
                     where(sortFieldId, find(
                         where('id', eq(sortFieldSubId))
@@ -470,7 +466,7 @@ export class FilterBuilder extends AbstractQueryBuilder implements IFilter {
         } else if (lastItemSortFieldValue instanceof Date ||
             typeof lastItemSortFieldValue !== 'object') {
             // If the sort value is good add the sort statement
-            return this.clone().addStatementBuilder([
+            return this.clone().addStatement([
                 // filter items below list item
                 where(sortFieldId, op(lastItemSortFieldValue)),
                 // if filter value is the same ensure the id is different

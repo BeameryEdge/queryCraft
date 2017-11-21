@@ -1,9 +1,9 @@
 import "mocha"
 import { assert } from "chai"
-import { any, all, eq, neq, lt, gt, lte, gte, prefix, find, nfind, conditionFromJSON, ICondition, Condition  } from './Conditions'
+import { any, all, eq, neq, lt, gt, lte, gte, prefix, find, nfind, conditionFromJSON, ConditionJSON, Condition  } from './Conditions'
 import { QueryBuilder } from "./Query";
 
-const cases: {name: string, condition: Condition, json: ICondition}[] = [{
+const cases: {name: string, condition: Condition, json: ConditionJSON}[] = [{
     name: 'any',
     condition: any([]),
     json: { op: 'ANY', value: [] }

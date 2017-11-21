@@ -1,6 +1,6 @@
 import "mocha"
 import { assert } from "chai"
-import { QueryBuilder, IQuery } from './Query'
+import { QueryBuilder, QueryJSON } from './Query'
 import { eq } from './Conditions'
 describe('QueryBuilder', function(){
     const qb = new QueryBuilder()
@@ -67,7 +67,7 @@ describe('QueryBuilder', function(){
                     op: 'EQ',
                     value: 'bar'
                 }
-            } as IQuery
+            } as QueryJSON
 
             const qb = new QueryBuilder()
             .where('foo', eq('bar'))
@@ -83,7 +83,7 @@ describe('QueryBuilder', function(){
                     op: 'EQ',
                     value: 'bar'
                 }
-            } as IQuery
+            } as QueryJSON
 
             const qb = new QueryBuilder()
             .where('foo', eq('bar'))

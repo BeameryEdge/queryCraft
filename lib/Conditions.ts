@@ -7,167 +7,577 @@ import {
     StringOperation
 } from './Operations'
 import { BasicValue } from './Values'
-import { IQuery, QueryBuilder } from './Query'
-export interface IBaseCondition {
+import { QueryJSON, QueryBuilder } from './Query'
+
+/**
+ * Base Interface for the JSON representation of a Condition
+ *
+ * @private
+ * @interface BaseConditionJSON
+ * Example:-
+ *
+ * ```json
+ * {
+ *     "op": "EQ",
+ *     "value": "foo"
+ * }
+ * ```
+ */
+export interface BaseConditionJSON {
     op: Operation
-    value: BasicValue | Array<IBaseCondition> | IQuery
+    value: BasicValue | Array<BaseConditionJSON> | QueryJSON
 }
 
-export interface IMatchCondition extends IBaseCondition {
+/**
+ * Interface for the JSON representation of a match condition
+ *
+ * These are the conditions that are derived from a list of condtions
+ * such as the {@link AnyCondition} condition
+ * Example:-
+ *
+ * ```json
+ * {
+ *     "op": "ALL",
+ *     "value": [{
+ *          "op": "EQ",
+ *          "value": "foo"
+ *      }]
+ * }
+ * ```
+ *
+ * @private
+ * @interface MatchConditionJSON
+ * @extends {BaseConditionJSON}
+ */
+export interface MatchConditionJSON extends BaseConditionJSON {
     op: MatchOperation
-    value: Array<ICondition>
+    value: Array<ConditionJSON>
 }
 
-export interface IEqualityCondition extends IBaseCondition {
+/**
+ * Interface for the JSON representation of an equality condition
+ *
+ * These are the conditions that compare against a precise value
+ *
+ * @private
+ * @interface EqualityConditionJSON
+ * @extends {BaseConditionJSON}
+ * Example:-
+ *
+ * ```json
+ * {
+ *     "op": "EQ",
+ *     "value": "foo"
+ * }
+ * ```
+ */
+export interface EqualityConditionJSON extends BaseConditionJSON {
     op: EqualityOperation
     value: BasicValue
 }
 
-export interface IOrderCondition extends IBaseCondition {
+/**
+ * Interface for the JSON representation of an order condition
+ *
+ * These are the conditions the
+ *
+ * @private
+ * @interface OrderConditionJSON
+ * @extends {BaseConditionJSON}
+ * Example:-
+ *
+ * ```json
+ * {
+ *     "op": "LT",
+ *     "value": 100
+ * }
+ * ```
+ */
+export interface OrderConditionJSON extends BaseConditionJSON {
     op: OrderOperation
     value: BasicValue
 }
 
-export interface IStringCondition extends IBaseCondition {
+/**
+ * Interface for the JSON representation of a string condition
+ *
+ * @private
+ * @interface StringConditionJSON
+ * @extends {BaseConditionJSON}
+ * Example:-
+ *
+ * ```json
+ * {
+ *     "op": "PREFIX",
+ *     "value": "feature/"
+ * }
+ * ```
+ */
+export interface StringConditionJSON extends BaseConditionJSON {
     op: StringOperation
     value: string
 }
 
-export interface IQueryCondition extends IBaseCondition {
+/**
+ * Interface for the JSON representation of an query condition
+ *
+ * @private
+ * @interface QueryConditionJSON
+ * @extends {BaseConditionJSON}
+ * Example:-
+ *
+ * ```json
+ * {
+ *     "op": "FIND",
+ *     "value": {}
+ * }
+ * ```
+ */
+export interface QueryConditionJSON extends BaseConditionJSON {
     op: QueryOperation
-    value: IQuery
+    value: QueryJSON
 }
 
-export type ICondition = IMatchCondition | IEqualityCondition | IOrderCondition | IStringCondition | IQueryCondition
+/**
+ * The precise type of valid condition JSON
+ * @private
+ */
+export type ConditionJSON =
+    | MatchConditionJSON
+    | EqualityConditionJSON
+    | OrderConditionJSON
+    | StringConditionJSON
+    | QueryConditionJSON
 
+/**
+ * The type of a valid condition:-
+ * ```ts
+ * type Condition = MatchCondition | EqualityCondition | OrderCondition | StringCondition | QueryCondition
+ * ```
+ *
+ * Note these are instances of the  [BaseCondition]{@link BaseCondition} class and not just json data
+ * @private
+ */
 export type Condition = MatchCondition | EqualityCondition | OrderCondition | StringCondition | QueryCondition
 export type Value = Condition[] | BasicValue | QueryBuilder
+
+/**
+ * Abstract class representing a condition, used to export JSON data via it's `toJSON` method
+ * this takes advantage of the fact the `toJSON` function will be called whenever JSON.stringify
+ * is being applied to the object.
+ *
+ * This class just represents the structure condition, and any actual condition class must
+ * extend this class
+ *
+ * @private
+ * @abstract
+ * @class BaseCondition
+ */
 export abstract class BaseCondition {
-    op: Operation
-    value: Value
+    readonly abstract op: Operation
+    readonly value: Value
     constructor(value: Value) {
         this.value = value
     }
-    toJSON(): ICondition { return <ICondition>{ op: this.op, value: this.value } }
+    toJSON(): ConditionJSON { return <ConditionJSON>{ op: this.op, value: this.value } }
 }
 
-export class MatchCondition extends BaseCondition {
-    op: MatchOperation
-    value: Condition[]
-    toJSON(): IMatchCondition { return { op: this.op, value: this.value.map($ => $.toJSON()) } }
+/**
+ * Abstract class for 'Match' conditions - the conditions that are base on a set
+ * of conditions
+ * @private
+ */
+export abstract class MatchCondition extends BaseCondition {
+    readonly op: MatchOperation
+    /**
+     * list of sub-conditions
+     * @type {Condition[]}
+     */
+    readonly value: Condition[]
+    toJSON(): MatchConditionJSON { return { op: this.op, value: this.value.map($ => $.toJSON()) } }
 }
 
-export class ALL extends MatchCondition {
-    op: 'ALL' = 'ALL'
-    value: Condition[]
-}
-export function all(value: Condition[]){ return new ALL(value) }
-
-export class ANY extends MatchCondition {
-    op: 'ANY' = 'ANY'
-    value: Condition[]
-}
-export function any(value: Condition[]){ return new ANY(value) }
-
-
-export class EqualityCondition extends BaseCondition implements IEqualityCondition {
-    op: EqualityOperation
-    value: BasicValue
+/**
+ * Condition that is satisfied when all the sub conditions are satisfied
+ * @private
+ */
+export class AllCondition extends MatchCondition {
+    readonly op: 'ALL' = 'ALL'
 }
 
-export class EQ extends EqualityCondition {
-    op: 'EQ' = 'EQ'
-    value: BasicValue
-}
-export function eq(value: BasicValue){ return new EQ(value) }
-
-export class NEQ extends EqualityCondition {
-    op: 'NEQ' = 'NEQ'
-    value: BasicValue
-}
-export function neq(value: BasicValue){ return new NEQ(value) }
-
-export class OrderCondition extends BaseCondition implements IOrderCondition {
-    op: OrderOperation
-    value: BasicValue
+/**
+ * Condition that is satisfied when any the sub conditions are satisfied
+ * @private
+ */
+export class AnyCondition extends MatchCondition {
+    readonly op: 'ANY' = 'ANY'
 }
 
-export class LT extends OrderCondition {
+/**
+ * Abstract class for 'Equality' conditions - the conditions that are based of
+ * checking equivalence to a specific value
+ * @private
+ */
+export abstract class EqualityCondition extends BaseCondition implements EqualityConditionJSON {
+    readonly op: EqualityOperation
+    readonly value: BasicValue
+}
+
+
+/**
+ * Condition that is satisfied when the field has the given value
+ *
+ * Note: `null` is treated equivalently to no value being set
+ * @private
+ */
+export class EqualsCondition extends EqualityCondition {
+    readonly op: 'EQ' = 'EQ'
+    readonly value: BasicValue
+}
+
+/**
+ * Condition that is satisfied when the field has a value different to the given
+ * value.
+ *
+ * Note: `null` is treated equivalently to no value being set
+ * @private
+ */
+export class NotEqualsCondition extends EqualityCondition {
+    readonly op: 'NEQ' = 'NEQ'
+    readonly value: BasicValue
+}
+
+/**
+ * Abstract class for 'Order' conditions - the conditions that are based of
+ * checking for values in a range
+ * @private
+ */
+export abstract class OrderCondition extends BaseCondition implements OrderConditionJSON {
+    readonly op: OrderOperation
+    readonly value: BasicValue
+}
+
+/**
+ * Condition that is satisfied when the field has a value less than the given
+ * value.
+ * @private
+ */
+export class LessThanCondition extends OrderCondition {
     op: 'LT' = 'LT'
     value: BasicValue
 }
-export function lt(value: BasicValue){ return new LT(value) }
 
-export class GT extends OrderCondition {
+/**
+ * Condition that is satisfied when the field has a value greater than the given
+ * value.
+ * @private
+ */
+export class GreaterThanCondition extends OrderCondition {
     op: 'GT' = 'GT'
     value: BasicValue
 }
-export function gt(value: BasicValue){ return new GT(value) }
 
-export class LTE extends OrderCondition {
-    op: 'LTE' = 'LTE'
-    value: BasicValue
+/**
+ * Condition that is satisfied when the field has a value less than or equal to
+ * the given value.
+ * @private
+ */
+export class LessThanOrEqualCondition extends OrderCondition {
+    readonly op: 'LTE' = 'LTE'
+    readonly value: BasicValue
 }
-export function lte(value: BasicValue){ return new LTE(value) }
 
-export class GTE extends OrderCondition {
+/**
+ * Condition that is satisfied when the field has a value greater than or equal
+ * to the given value.
+ * @private
+ */
+export class GreaterThanOrEqualCondition extends OrderCondition {
     op: 'GTE' = 'GTE'
     value: BasicValue
 }
-export function gte(value: BasicValue){ return new GTE(value) }
 
-export class StringCondition extends BaseCondition implements IStringCondition {
+/**
+ * Abstract class for 'String' conditions - the conditions that are based of
+ * checking specific properties of a string
+ * @private
+ */
+export class StringCondition extends BaseCondition implements StringConditionJSON {
     op: StringOperation
     value: string
 }
 
-export class PREFIX extends StringCondition {
+/**
+ * Condition that is satisfied when the field is a string that starts with the
+ * given string
+ * @private
+ */
+export class PrefixCondition extends StringCondition {
     op: 'PREFIX' = 'PREFIX'
     value: string
 }
-export function prefix(value: string){ return new PREFIX(value) }
 
-export class QueryCondition extends BaseCondition {
+/**
+ * Abstract class for 'Query' conditions - the conditions that are based of
+ * checking properties of items in a nested field (an array-valued field)
+ * @private
+ */
+export abstract class QueryCondition extends BaseCondition {
     op: QueryOperation
     value: QueryBuilder
-    toJSON(): IQueryCondition { return { op: this.op, value: this.value.toJSON() } }
+    toJSON(): QueryConditionJSON { return { op: this.op, value: this.value.toJSON() } }
 }
 
-export class FIND extends QueryCondition {
+/**
+ * Condition that is satisfied when you can find an item in the nested array
+ * that satisfies the given query
+ * @private
+ */
+export class FindCondition extends QueryCondition {
     op: QueryOperation = 'FIND'
 }
-export function find(value: QueryBuilder){ return new FIND(value) }
 
-export class NFIND extends QueryCondition {
+/**
+ * Condition that is satisfied when you there is no item in the nested array
+ * that satisfies the given query
+ * @private
+ */
+export class CannotFindCondition extends QueryCondition {
     op: QueryOperation = 'NFIND'
 }
-export function nfind(value: QueryBuilder){ return new NFIND(value) }
 
-export function conditionFromJSON(json: ICondition): Condition {
+/**
+ * Get a condition object from a JSON condition
+ *
+ * @private
+ * @param {ConditionJSON} json
+ * @returns {Condition}
+ */
+export function conditionFromJSON(json: ConditionJSON): Condition {
     switch (json.op) {
         case 'ANY':
-            return new ANY(json.value.map(conditionFromJSON))
+            return new AnyCondition(json.value.map(conditionFromJSON))
         case 'ALL':
-            return new ALL(json.value.map(conditionFromJSON))
+            return new AllCondition(json.value.map(conditionFromJSON))
         case 'EQ':
-            return new EQ(json.value)
+            return new EqualsCondition(json.value)
         case 'NEQ':
-            return new NEQ(json.value)
+            return new NotEqualsCondition(json.value)
         case 'LT':
-            return new LT(json.value)
+            return new LessThanCondition(json.value)
         case 'GT':
-            return new GT(json.value)
+            return new GreaterThanCondition(json.value)
         case 'LTE':
-            return new LTE(json.value)
+            return new LessThanOrEqualCondition(json.value)
         case 'GTE':
-            return new GTE(json.value)
+            return new GreaterThanOrEqualCondition(json.value)
         case 'PREFIX':
-            return new PREFIX(json.value)
+            return new PrefixCondition(json.value)
         case 'FIND':
-            return new FIND(QueryBuilder.fromJSON(json.value))
+            return new FindCondition(QueryBuilder.fromJSON(json.value))
         case 'NFIND':
-            return new NFIND(QueryBuilder.fromJSON(json.value))
+            return new CannotFindCondition(QueryBuilder.fromJSON(json.value))
         default:
             throw new Error('Unknown Operation')
     }
+}
+
+
+/**
+ * Creates a condition that is satisfied when all the sub-conditions are
+ * satisfied
+ *
+ * Example:-
+ * ```
+ * all([
+ *     gt(50),
+ *     lt(100)
+ * ])
+ * // => between 50 and 100
+ *
+ * ```
+ *
+ *
+ * @param {Condition[]} value Array of sub-conditions that must be satisfied
+ * @returns
+ */
+export function all(value: Condition[]){ return new AllCondition(value) }
+
+/**
+ * Creates a condition that is satisfied when any the sub-conditions are
+ * satisfied
+ * Example:-
+ * ```
+ * any([
+ *     eq('this'),
+ *     eq('that')
+ * ])
+ * // => equal to 'this' or 'that'
+ *
+ * ```
+ *
+ *
+ * @param {Condition[]} value Array of sub-conditions that must be satisfied
+ * @returns
+ */
+export function any(value: Condition[]){ return new AnyCondition(value) }
+
+/**
+ * Creates a condition that is satisfied when the field has the given value
+ *
+ * Note: `null` is treated equivalently to no value being set
+ *
+ * Example:-
+ * ```
+ * eq('this')
+ * // => field must be equal to 'this'
+ * eq(null)
+ * // => field must not have a value set
+ *
+ * ```
+ *
+ *
+ * @param {BasicValue} value the value to compare fields against
+ * @returns
+ */
+export function eq(value: BasicValue){ return new EqualsCondition(value) }
+/**
+ * Creates a condition that is satisfied when the field has a value that is not
+ * the given value
+ *
+ * Note: `null` is treated equivalently to no value being set
+ *
+ * Example:-
+ * ```
+ * neq('this')
+ * // => field must be not-equal to 'this', or not set
+ * neq(null)
+ * // => field must have some value set
+ * ```
+ *
+ *
+ * @param {BasicValue} value the value to compare fields against
+ * @returns
+ */
+export function neq(value: BasicValue){ return new NotEqualsCondition(value) }
+/**
+ * Creates a condition that is satisfied when the field has a value strictly
+ * less than the given value.
+ *
+ * Example:-
+ * ```
+ * lt('this')
+ * // => field must be strictly less than 'this' (lexicographically ordered) e.g. 'thin'
+ * lt(100)
+ * // => field must be strictly less than 100 e.g. 99 but not 100
+ * ```
+ *
+ *
+ * @param {BasicValue} value
+ * @returns
+ */
+export function lt(value: BasicValue){ return new LessThanCondition(value) }
+/**
+ * Creates a condition that is satisfied when the field has a value strictly
+ * greater than the given value.
+ *
+ * Example:-
+ * ```
+ * gt('this')
+ * // => field must be strictly greater than 'this' (lexicographically ordered) e.g. 'those'
+ * gt(100)
+ * // => field must be strictly greater than 100 e.g. 101 but not 100
+ * ```
+ *
+ *
+ * @param {BasicValue} value
+ * @returns
+ */
+export function gt(value: BasicValue){ return new GreaterThanCondition(value) }
+/**
+ * Creates a condition that is satisfied when the field has a value
+ * less than the given value.
+ *
+ * Example:-
+ * ```
+ * lte('this')
+ * // => field must be less than 'this' (lexicographically ordered) e.g. 'thin'
+ * lte(100)
+ * // => field must be less than 100 e.g. 99 and 100
+ * ```
+ *
+ *
+ * @param {BasicValue} value
+ * @returns
+ */
+export function lte(value: BasicValue){ return new LessThanOrEqualCondition(value) }
+/**
+ * Creates a condition that is satisfied when the field has a value
+ * greater than or equal to the given value.
+ *
+ * Example:-
+ * ```
+ * gte('this')
+ * // => field must be greater than or equal to 'this' (lexicographically ordered) e.g. 'those'
+ * gte(100)
+ * // => field must be greater than or equal to 100 e.g. 101 but not 100
+ * ```
+ *
+ *
+ * @param {BasicValue} value
+ * @returns
+ */
+export function gte(value: BasicValue){ return new GreaterThanOrEqualCondition(value) }
+/**
+ * Creates a condition that is satisfied when the field is a string that starts
+ * with the given string
+ *
+ * Example:-
+ * ```
+ * prefix('th')
+ * // => field must start with 'th' e.g. 'this', 'that', 'those' ...
+ * ```
+ *
+ *
+ * @param {string} prefixString prefix string
+ * @returns
+ */
+export function prefix(prefixString: string){ return new PrefixCondition(prefixString) }
+/**
+ * Creates a condition that is satisfied when you can find an item in the nested
+ * array that satisfies the given query
+ *
+ * Example:-
+ * ```
+ * find(
+ *     where('firstName', eq('bob'))
+ *     .where('lastName', prefix('Mc'))
+ * )
+ * // => field must contain an item with firstName 'bob' and lastName starting
+ * with 'Mc'
+ * ```
+ *
+ *
+ * @param {QueryBuilder} queryBuilder
+ * @returns
+ */
+export function find(queryBuilder: QueryBuilder){
+    return new FindCondition(queryBuilder)
+}
+/**
+ * Creates a condition that is satisfied when there is no item in the nested
+ * array that satisfies the given query
+ *
+ * Example:-
+ * ```
+ * find(where('firstName', eq('bob')))
+ * // => field must not contain an item with firstName 'bob'
+ * ```
+ *
+ *
+ * @param {QueryBuilder} queryBuilder
+ * @returns
+ */
+export function nfind(queryBuilder: QueryBuilder){
+    return new CannotFindCondition(queryBuilder)
 }

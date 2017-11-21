@@ -251,10 +251,10 @@ describe('FilterBuilder', function(){
     })
 
 
-    describe('.setStatementBuilder', function(){
+    describe('.setStatement', function(){
         it('should be able to add statements to the filter',function(){
-            myFilter.clone().setStatementBuilders([
-                ...myFilter.getStatementBuilders(),
+            myFilter.clone().setStatements([
+                ...myFilter.getStatements(),
                 [
                     where('list.id', eq('list-1')),
                     where('vacancy.id', eq('vacancy1')),
@@ -264,14 +264,14 @@ describe('FilterBuilder', function(){
 
         it('should throw if no statements are set',function(){
             assert.throws(() => {
-                myFilter.clone().setStatementBuilders([])
+                myFilter.clone().setStatements([])
             })
         })
 
 
         it('should throw if a statement is added with no queries',function(){
             assert.throws(() => {
-                myFilter.clone().setStatementBuilders([[]])
+                myFilter.clone().setStatements([[]])
             })
         })
     })

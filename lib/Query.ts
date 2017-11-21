@@ -1,13 +1,27 @@
 import {BasicValue} from './Values'
-import {ICondition, Condition, conditionFromJSON} from './Conditions'
+import {ConditionJSON, Condition, conditionFromJSON} from './Conditions'
 import {Operation} from './Operations'
 
-type Value =  ICondition[] | BasicValue | IQuery
+type Value =  ConditionJSON[] | BasicValue | QueryJSON
 
-export interface IQuery {
-    [key: string]: ICondition
+/**
+ * Interface for the JSON representation of a query that is built by the
+ * [QueryBuilder]{@link QueryBuilder} class
+ *
+ *
+ * @interface QueryJSON
+ */
+export interface QueryJSON {
+    [key: string]: ConditionJSON
 }
 
+/**
+ * Abstract Class to represent a component that can build queries
+ *
+ *
+ * @abstract
+ * @class AbstractQueryBuilder
+ */
 export abstract class AbstractQueryBuilder {
     protected abstract get data(): { [P in string]?: Condition }
     /**
@@ -17,8 +31,7 @@ export abstract class AbstractQueryBuilder {
      * @param {(Condition | null)} condition
      * @returns {AbstractQueryBuilder}
      *
-     * @memberOf AbstractQueryBuilder
-     * @example
+     * Example:-
      *
      * ```ts
      *
@@ -42,8 +55,7 @@ export abstract class AbstractQueryBuilder {
      *
      * @returns {(string)[]}
      *
-     * @memberOf AbstractQueryBuilder
-     * @example
+     * Example:-
      *
      * ```ts
      *
@@ -61,8 +73,7 @@ export abstract class AbstractQueryBuilder {
      * @param {string} fieldId
      * @returns
      *
-     * @memberOf AbstractQueryBuilder
-     * @example
+     * Example:-
      *
      * ```ts
      *
@@ -80,15 +91,13 @@ export abstract class AbstractQueryBuilder {
      * Maps of the fields with conditions set and returns the result of applying
      * the mapFn to the fieldId-Condition pairs.
      *
-     * @template S
+     * @template S map function return type
      * @param {(fieldId: string, condition: Condition) => S} mapFn
      * @returns {S[]}
      *
-     * @memberOf AbstractQueryBuilder
-     * @example
+     * Example:-
      *
      *```ts
-     *
      * new QueryBuilder()
      * .where('foo', eq('bar'))
      * .mapFieldConditions((fieldId, condition) =>
@@ -104,9 +113,9 @@ export abstract class AbstractQueryBuilder {
 }
 
 /**
- * Builder class for {@link IQuery} object
+ * Builder class for {@link QueryJSON} object
  *
- * @export
+ *
  * @class QueryBuilder
  * @extends {AbstractQueryBuilder}
  */
@@ -116,14 +125,12 @@ export class QueryBuilder extends AbstractQueryBuilder {
      * De-serializes JSON data and replaces the current query object with that data
      *
      * @static
-     * @param {IQuery} data
+     * @param {QueryJSON} data
      * @returns {this}
      *
-     * @memberOf QueryBuilder
-     * @example
+     * Example:-
      *
      * ```ts
-     *
      * QueryBuilder
      * .fromJSON({"foo":{"op":"EQ","value":"bar"}})
      * // same as :-
@@ -132,7 +139,7 @@ export class QueryBuilder extends AbstractQueryBuilder {
      * ```
      *
      */
-    static fromJSON(data: IQuery) {
+    static fromJSON(data: QueryJSON) {
         const query = new QueryBuilder()
         query.data = {} as { [P in string]: Condition }
         for (let fieldId in data){
@@ -143,21 +150,19 @@ export class QueryBuilder extends AbstractQueryBuilder {
     /**
      * Serializes the query data into a JSON object
      *
-     * @returns {IQuery}
+     * @returns {QueryJSON}
      *
-     * @memberOf QueryBuilder
-     * @example
+     * Example:-
      *
      * ```ts
-     *
      * new QueryBuilder()
      * .where('foo', eq('bar')).toJSON()
      * // => {"foo":{"op":"EQ","value":"bar"}}
      * ```
      *
      */
-    toJSON(): IQuery {
-        const res: IQuery = {} as IQuery
+    toJSON(): QueryJSON {
+        const res: QueryJSON = {} as QueryJSON
         for (let fieldId in this.data){
             if (this.data[fieldId]){
                 res[fieldId.replace(/\./g,'/')] = (this.data[fieldId] as Condition).toJSON()
@@ -170,14 +175,13 @@ export class QueryBuilder extends AbstractQueryBuilder {
 /**
  * Create a new QueryBuilder with a condition already set
  *
- * @export
+ *
  * @param {string} fieldId
  * @param {Condition} condition
  * @returns {QueryBuilder}
- * @example
+ * Example:-
  *
  * ```ts
- *
  * where('foo', eq('bar'))
  * // alias for :-
  * new QueryBuilder()

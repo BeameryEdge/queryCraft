@@ -26,7 +26,6 @@ Suppose we have a collection of data that satisfies the interface
 interface contact {
     id: string
     'list': { id: string }[]
-    'vacancy.id'?: string
     firstName: string
     lastName: string
     email: string
@@ -44,8 +43,10 @@ If we want a query the describes the logic:-
         assignedTo is anything
         list has an item where id is item1
     sorted (in ascending order) by the value property of the customField where id is custom1
-    updated less than 5 days ago
+    created less than 5 days ago
 ```
+
+We can build build it as easily as:-
 
 ```ts
 import { FilterBuilder, eq, lt, neq, any, find, where } from 'querycraft'
@@ -57,10 +58,9 @@ const filter = new FilterBuilder()
     eq('doyle'),
     eq(null)
 ]))
-.where('updatedAt', lt({ daysAgo: 5 }))
+.where('createdAt', lt({ daysAgo: 5 }))
 .where('assignedTo', neq(null))
 .setSortFieldId('customFields', 'custom1', 'value')
 .setSortDirection('ASC')
 .setLimit(50)
-
 ```
