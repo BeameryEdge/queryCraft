@@ -53,7 +53,7 @@ import { FilterBuilder, eq, lt, neq, any, find, where } from 'querycraft'
 
 const filter = new FilterBuilder()
 .where('firstName', eq('bob'))
-.where('list', find(where('id', eq('ite,1'))))
+.where('list', find(where('id', eq('item1'))))
 .where('lastName', any([
     eq('doyle'),
     eq(null)
