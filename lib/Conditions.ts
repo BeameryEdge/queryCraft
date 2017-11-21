@@ -406,7 +406,9 @@ export function all(value: Condition[]){ return new AllCondition(value) }
 /**
  * Creates a condition that is satisfied when any the sub-conditions are
  * satisfied
+ *
  * Example:-
+ *
  * ```
  * any([
  *     eq('this'),
