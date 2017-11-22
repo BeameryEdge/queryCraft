@@ -39,8 +39,7 @@ npm install --save 'querycraft'
 
 ## Examples
 
-To be able to use Query Craft you will need to define your schemas/collections/tables as TypeScript interfaces. For example:
-
+Suppose we have a collection of contacts each with a data structure that satisfies the Typescript interface below:
 ```ts
 interface contact {
     id: string
@@ -56,7 +55,7 @@ interface contact {
 
 Then, if we want a query the describes the logic: 
 
-```
+```plaintext
     first 50 items where
         fistName is bob
         lastName is doyle OR is not set
