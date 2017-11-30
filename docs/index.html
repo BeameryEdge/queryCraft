@@ -1056,20 +1056,33 @@ img { max-width: 100%; }
 <div class="container container-main">
 	<div class="content-wrap">
 		<div class="tsd-panel tsd-typography">
-			<h1 id="querycraft">QueryCraft</h1>
 			<p><a href="https://npmjs.org/package/querycraft"><img src="https://nodei.co/npm/querycraft.png" alt="NPM"></a></p>
 			<p><a href="https://badge.fury.io/js/querycraft"><img src="https://badge.fury.io/js/querycraft.svg" alt="npm version"></a>
 				<a href="https://circleci.com/gh/BeameryHQ/QueryCraft"><img src="https://circleci.com/gh/BeameryHQ/QueryCraft.svg?style=shield" alt="CircleCI"></a>
 				<a href="https://codecov.io/gh/BeameryHQ/QueryCraft"><img src="https://codecov.io/gh/BeameryHQ/QueryCraft/branch/master/graph/badge.svg" alt="codecov"></a>
 				<a href="https://david-dm.org/BeameryHQ/QueryCraft"><img src="https://david-dm.org/BeameryHQ/QueryCraft.svg" alt="David deps"></a>
 			<a href="https://snyk.io/test/github/beameryhq/querycraft"><img src="https://snyk.io/test/github/beameryhq/querycraft/badge.svg" alt="Known Vulnerabilities"></a></p>
-			<h2 id="docs">Docs</h2>
-			<p>View <a href="https://beameryhq.github.io/QueryCraft/classes/_filter_.filterbuilder.html">API Documentation</a></p>
+			<h2 id="what-are-we-trying-to-solve-">What are we trying to solve?</h2>
+			<p>The role of data in the digital age is very much like gold in the wild west. It has the potential to bring untold benefits to those with the wit, wile and determination to find the nuggets of valuable information among the, large expanse of unordered mess; but also hold the potential to attract the overly enthusiastic optimist to invest large amount of time and money rifling through mud.</p>
+			<p>Here at <a href="http://beamery.com">Beamery</a> data is what we do, in particular we have had to deal with one incredibly difficult hurdle, namely the disconnect between what we often call the hustlers and the hackers.</p>
+			<p>The <strong>hustlers</strong> are those with the domain knowledge in a field that allows them to understand what are the important features about the data they have and what sort of questions we want to ask about our data sets.</p>
+			<p>This could be a hiring manager who understands what the best indicators for a valuable employee look like from a candidate’s profile; or, a sales manager who can deduce that the ads they have been running work better in red states than blue by looking a sales growth grouped by area; or even a police inspector who, when shown the locations of recent drug offences, would use their own understanding of the areas and the way criminal organisations work to pick the best locations to spend police resources.</p>
+			<p>The <strong>hackers</strong> on the other hand are your engineers the people with the know how to build scalable, fault-tolerant systems which can house and surface, and aggregate vast amounts of data. This includes the systems engineers tweaking the performance of the machines and connections between them to squeeze every last ounce of speed from them using every state of the art tool available to shave of those precious milliseconds from each computation. The API developers creating efficient structured methods for accessing that data and the UI developers creating beautiful and intuitive interfaces for presenting that data in ways the hackers can easily digest.</p>
+			<h2 id="proposal">Proposal</h2>
+			<p>The solution we came up with was to abstract out the layers between the data and those who understand the data into plug and play components that allow developers to pick, choose and extend functionality without having to fall into lower levels of concerns such as what the underlying database you are querying is.</p>
+			<ul>
+				<li><strong>QueryCraft</strong>: A database agnostic API in javascript</li>
+				<li><strong>ReportCraft</strong>: Extends QueryCraft to enable aggregations that extract the trends in data (coming soon).</li>
+				<li><strong>SentenceCraft</strong>: A react UI Component for building rich UIs that enables complex configurable user input in a natural way (coming soon).</li>
+				<li><strong>ReportSelector</strong>: Uses sentence crafter to offer UI components that allow users to  build ReportCraft queries in a natural language format (coming soon).</li>
+			</ul>
+			<h1 id="query-craft">Query Craft</h1>
+			<p>Query Craft is a database agnostic API to analyze your data and construct queries, filters, aggregations, etc. It abstracts the analytical operations and uses the databases connector to run those against your MongoDB collections, ElasticSearch indices or your MySQL tables. </p>
 			<h2 id="installation">Installation</h2>
 			<pre><code class="lang-sh">npm install --save <span class="hljs-string">'querycraft'</span>
 </code></pre>
 			<h2 id="examples">Examples</h2>
-			<p>Suppose we have a collection of data that satisfies the interface</p>
+			<p>Suppose we have a collection of contacts each with a data structure that satisfies the Typescript interface below:</p>
 			<pre><code class="lang-ts"><span class="hljs-keyword">interface</span> contact {
     id: <span class="hljs-built_in">string</span>
     <span class="hljs-string">'list'</span>: { id: <span class="hljs-built_in">string</span> }[]
@@ -1081,20 +1094,21 @@ img { max-width: 100%; }
     assignedTo?: <span class="hljs-built_in">string</span>
 }
 </code></pre>
-			<p>If we want a query the describes the logic:-</p>
-			<pre><code>    <span class="hljs-keyword">first</span> <span class="hljs-number">50</span> items <span class="hljs-keyword">where</span>
-        fistName <span class="hljs-keyword">is</span> bob
-        lastName <span class="hljs-keyword">is</span> doyle OR <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">set</span>
-        assignedTo <span class="hljs-keyword">is</span> anything
-        <span class="hljs-built_in">list</span> has an <span class="hljs-built_in">item</span> <span class="hljs-keyword">where</span> <span class="hljs-built_in">id</span> <span class="hljs-keyword">is</span> item1
-    sorted (<span class="hljs-keyword">in</span> ascending order) <span class="hljs-keyword">by</span> <span class="hljs-keyword">the</span> value <span class="hljs-keyword">property</span> <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> customField <span class="hljs-keyword">where</span> <span class="hljs-built_in">id</span> <span class="hljs-keyword">is</span> custom1
-    created <span class="hljs-keyword">less than</span> <span class="hljs-number">5</span> days ago
-</code></pre><p>We can build build it as easily as:-</p>
+			<p>Then, if we want a query the describes the logic: </p>
+			<pre><code class="lang-plaintext">    first 50 items where
+        fistName is bob
+        lastName is doyle OR is not set
+        assignedTo is anything
+        list has an item where id is item1
+    sorted (in ascending order) by the value property of the customField where id is custom1
+    created less than 5 days ago
+</code></pre>
+			<p>We can build build it as easily as:</p>
 			<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { FilterBuilder, eq, lt, neq, <span class="hljs-built_in">any</span>, find, where } <span class="hljs-keyword">from</span> <span class="hljs-string">'querycraft'</span>
 
 <span class="hljs-keyword">const</span> filter = <span class="hljs-keyword">new</span> FilterBuilder()
 .where(<span class="hljs-string">'firstName'</span>, eq(<span class="hljs-string">'bob'</span>))
-.where(<span class="hljs-string">'list'</span>, find(where(<span class="hljs-string">'id'</span>, eq(<span class="hljs-string">'ite,1'</span>))))
+.where(<span class="hljs-string">'list'</span>, find(where(<span class="hljs-string">'id'</span>, eq(<span class="hljs-string">'item1'</span>))))
 .where(<span class="hljs-string">'lastName'</span>, <span class="hljs-built_in">any</span>([
     eq(<span class="hljs-string">'doyle'</span>),
     eq(<span class="hljs-literal">null</span>)
@@ -1105,6 +1119,8 @@ img { max-width: 100%; }
 .setSortDirection(<span class="hljs-string">'ASC'</span>)
 .setLimit(<span class="hljs-number">50</span>)
 </code></pre>
+			<h2 id="api-docs">API Docs</h2>
+			<p>Query Craft API docs can be found <a href="https://beameryhq.github.io/QueryCraft">here</a></p>
 		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
 		<section class="tsd-panel-group tsd-index-group">
@@ -1190,7 +1206,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Condition<span class="tsd-signature-symbol">:</span> <a href="classes/matchcondition.html" class="tsd-signature-type">MatchCondition</a><span class="tsd-signature-symbol"> | </span><a href="classes/equalitycondition.html" class="tsd-signature-type">EqualityCondition</a><span class="tsd-signature-symbol"> | </span><a href="classes/ordercondition.html" class="tsd-signature-type">OrderCondition</a><span class="tsd-signature-symbol"> | </span><a href="classes/stringcondition.html" class="tsd-signature-type">StringCondition</a><span class="tsd-signature-symbol"> | </span><a href="classes/querycondition.html" class="tsd-signature-type">QueryCondition</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Conditions.ts#L161">Conditions.ts:161</a></li>
+						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Conditions.ts#L161">Conditions.ts:161</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1208,7 +1224,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">ConditionJSON<span class="tsd-signature-symbol">:</span> <a href="interfaces/matchconditionjson.html" class="tsd-signature-type">MatchConditionJSON</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/equalityconditionjson.html" class="tsd-signature-type">EqualityConditionJSON</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/orderconditionjson.html" class="tsd-signature-type">OrderConditionJSON</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/stringconditionjson.html" class="tsd-signature-type">StringConditionJSON</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/queryconditionjson.html" class="tsd-signature-type">QueryConditionJSON</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Conditions.ts#L145">Conditions.ts:145</a></li>
+						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Conditions.ts#L145">Conditions.ts:145</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1223,7 +1239,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Sort<wbr>Direction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"ASC"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"DESC"</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Filter.ts#L6">Filter.ts:6</a></li>
+						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Filter.ts#L6">Filter.ts:6</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1233,7 +1249,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Statement<span class="tsd-signature-symbol">:</span> <a href="classes/querybuilder.html" class="tsd-signature-type">QueryBuilder</a><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Filter.ts#L16">Filter.ts:16</a></li>
+						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Filter.ts#L16">Filter.ts:16</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1248,7 +1264,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">StatementJSON<span class="tsd-signature-symbol">:</span> <a href="interfaces/queryjson.html" class="tsd-signature-type">QueryJSON</a><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Filter.ts#L12">Filter.ts:12</a></li>
+						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Filter.ts#L12">Filter.ts:12</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1264,8 +1280,8 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Value<span class="tsd-signature-symbol">:</span> <a href="globals.html#condition" class="tsd-signature-type">Condition</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">BasicValue</span><span class="tsd-signature-symbol"> | </span><a href="classes/querybuilder.html" class="tsd-signature-type">QueryBuilder</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Query.ts#L5">Query.ts:5</a></li>
-						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Conditions.ts#L162">Conditions.ts:162</a></li>
+						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Query.ts#L5">Query.ts:5</a></li>
+						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Conditions.ts#L162">Conditions.ts:162</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1282,7 +1298,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Conditions.ts#L404">Conditions.ts:404</a></li>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Conditions.ts#L404">Conditions.ts:404</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1321,7 +1337,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Conditions.ts#L425">Conditions.ts:425</a></li>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Conditions.ts#L425">Conditions.ts:425</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1360,7 +1376,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Conditions.ts#L356">Conditions.ts:356</a></li>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Conditions.ts#L356">Conditions.ts:356</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1388,7 +1404,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Conditions.ts#L445">Conditions.ts:445</a></li>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Conditions.ts#L445">Conditions.ts:445</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1426,7 +1442,7 @@ e<span class="hljs-string">q(null)</span>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Conditions.ts#L566">Conditions.ts:566</a></li>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Conditions.ts#L566">Conditions.ts:566</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1463,7 +1479,7 @@ e<span class="hljs-string">q(null)</span>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Conditions.ts#L498">Conditions.ts:498</a></li>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Conditions.ts#L498">Conditions.ts:498</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1498,7 +1514,7 @@ e<span class="hljs-string">q(null)</span>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Conditions.ts#L532">Conditions.ts:532</a></li>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Conditions.ts#L532">Conditions.ts:532</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1533,7 +1549,7 @@ e<span class="hljs-string">q(null)</span>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Conditions.ts#L481">Conditions.ts:481</a></li>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Conditions.ts#L481">Conditions.ts:481</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1568,7 +1584,7 @@ e<span class="hljs-string">q(null)</span>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Conditions.ts#L515">Conditions.ts:515</a></li>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Conditions.ts#L515">Conditions.ts:515</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1603,7 +1619,7 @@ e<span class="hljs-string">q(null)</span>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Conditions.ts#L464">Conditions.ts:464</a></li>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Conditions.ts#L464">Conditions.ts:464</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1642,7 +1658,7 @@ e<span class="hljs-string">q(null)</span>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Conditions.ts#L583">Conditions.ts:583</a></li>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Conditions.ts#L583">Conditions.ts:583</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1675,7 +1691,7 @@ e<span class="hljs-string">q(null)</span>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Conditions.ts#L547">Conditions.ts:547</a></li>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Conditions.ts#L547">Conditions.ts:547</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1711,7 +1727,7 @@ e<span class="hljs-string">q(null)</span>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/642eb7b/lib/Query.ts#L192">Query.ts:192</a></li>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/25350f0/lib/Query.ts#L192">Query.ts:192</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
