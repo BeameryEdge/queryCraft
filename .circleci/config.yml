@@ -68,6 +68,8 @@ workflows:
     jobs:
       - install:
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /.*/
       - test:
