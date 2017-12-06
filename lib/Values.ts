@@ -1,1 +1,1 @@
-export type BasicValue = string | number | Date | { daysAgo: number } | null
+export type BasicValue = string | number | Date | boolean | { daysAgo: number } | null
