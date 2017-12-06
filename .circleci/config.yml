@@ -66,15 +66,16 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - install:
+      - install
           filters:
             tags:
-              only: /.*/
-            branches:
-              ignore: /.*/
+              only: /^v[0-9]+(\.[0-9]+)*$/
       - test:
           requires:
             - install
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*$/
       - deploy:
           requires:
             - test
@@ -82,4 +83,4 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              only: /.*/
+              only: /^v[0-9]+(\.[0-9]+)*$/
