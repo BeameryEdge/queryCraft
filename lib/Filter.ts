@@ -204,7 +204,7 @@ export class FilterBuilder extends AbstractQueryBuilder implements FilterJSON {
      * ```
      */
     clone(): FilterBuilder {
-        return Object.assign(new FilterBuilder(), {
+        return Object.assign(new (Object.getPrototypeOf(this).constructor)(), {
             _statements: this._statements,
             sortFieldId: this.sortFieldId,
             sortDir: this.sortDir,
