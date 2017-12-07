@@ -28,7 +28,7 @@ The solution we came up with was to abstract out the layers between the data and
 
 # Query Craft
 
-Query Craft is a database agnostic API to analyze your data and construct queries, filters, aggregations, etc. It abstracts the analytical operations and uses the databases connector to run those against your MongoDB collections, ElasticSearch indices or your MySQL tables. 
+Query Craft is a database agnostic API to analyze your data and construct queries, filters, aggregations, etc. It abstracts the analytical operations and uses the databases connector to run those against your MongoDB collections, ElasticSearch indices or your MySQL tables.
 
 
 ## Installation
@@ -36,6 +36,14 @@ Query Craft is a database agnostic API to analyze your data and construct querie
 ```sh
 npm install --save 'querycraft'
 ```
+
+## Plugins
+
+The true value of the QueryCraft system is found in the plugins that expose functionality with very little extra effort from developers, currently available plugins include:-
+
+ - [QueryCraft-To-Function](https://github.com/BeameryHQ/QueryCraft-To-Function) - Allows you to apply FilterBuilder objects to plain javascript arrays.
+ - [QueryCraft-To-Elasticsearch](https://github.com/BeameryHQ/QueryCraft-To-Elasticsearch) - Allows you to convert FilterBuilder objects to elasticsearch filter queries.
+ - [QueryCraft-To-Elasticsearch](https://github.com/BeameryHQ/QueryCraft-To-Elasticsearch) - Allows you to convert FilterBuilder objects to mongodb queries
 
 ## Examples
 
@@ -53,9 +61,9 @@ interface contact {
 }
 ```
 
-Then, if we want a query the describes the logic: 
+Then, if we want a query the describes the logic:
 
-```plaintext
+```text
     first 50 items where
         fistName is bob
         lastName is doyle OR is not set
