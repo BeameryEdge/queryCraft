@@ -43,7 +43,7 @@ The true value of the QueryCraft system is found in the plugins that expose func
 
  - [QueryCraft-To-Function](https://github.com/BeameryHQ/QueryCraft-To-Function) - Allows you to apply FilterBuilder objects to plain javascript arrays.
  - [QueryCraft-To-Elasticsearch](https://github.com/BeameryHQ/QueryCraft-To-Elasticsearch) - Allows you to convert FilterBuilder objects to elasticsearch filter queries.
- - [QueryCraft-To-Elasticsearch](https://github.com/BeameryHQ/QueryCraft-To-Elasticsearch) - Allows you to convert FilterBuilder objects to mongodb queries
+ - [QueryCraft-To-MongoDB](https://github.com/BeameryHQ/QueryCraft-To-MongoDB) - Allows you to convert FilterBuilder objects to mongodb queries
 
 ## Examples
 
