@@ -1,7 +1,8 @@
-import {BasicValue} from './Values'
-import {OrderOperation} from './Operations'
-import {Condition, find, eq, gt, lt} from './Conditions'
-import {QueryJSON, QueryBuilder, AbstractQueryBuilder, where} from './Query'
+import { BasicValue } from './Values'
+import { OrderOperation } from './Operations'
+import { Condition, find, eq, gt, lt } from './Conditions'
+import { QueryJSON, QueryBuilder, AbstractQueryBuilder, where } from './Query'
+import { AbstractAggregation, AggregationJSON } from './Aggregations';
 
 export type SortDirection = 'ASC' | 'DESC'
 

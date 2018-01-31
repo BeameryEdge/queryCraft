@@ -1,6 +1,6 @@
-import {BasicValue} from './Values'
-import {ConditionJSON, Condition, conditionFromJSON} from './Conditions'
-import {Operation} from './Operations'
+import { BasicValue } from './Values'
+import { ConditionJSON, Condition, conditionFromJSON } from './Conditions'
+import { Operation } from './Operations'
 
 type Value =  ConditionJSON[] | BasicValue | QueryJSON
 
