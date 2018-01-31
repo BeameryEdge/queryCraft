@@ -11,12 +11,16 @@ describe('Aggregations', function(){
             .where('age', gt(18))
 
             assert.deepEqual(aggs.toJSON(), {
-                type: "buckets",
-                fieldId: "name",
-                subBuckets: {
-                    fieldId: "age",
-                    interval: 10
-                }
+                type: "filter",
+                statements: [[{
+                    age: {
+                        op: "GT",
+                        value: 18
+                    }
+                }]],
+                sortDir: "DESC",
+                limit: 100,
+                sortFieldId: "id"
             })
         })
 

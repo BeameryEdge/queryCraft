@@ -203,8 +203,8 @@ export class BucketsAggregation extends AbstractAggregation implements BucketsJS
         super()
         Object.assign(this, opts)
     }
-    static fromJSON(json: FilterJSON & AggregationJSON){
-        return Object.assign(new FilterAggregation(), json)
+    static fromJSON(json: BucketsJSON & AggregationJSON){
+        return Object.assign(new BucketsAggregation(json))
     }
 }
 
