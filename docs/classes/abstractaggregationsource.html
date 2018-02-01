@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>MatchCondition | querycraft</title>
+	<title>AbstractAggregationSource | querycraft</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
@@ -907,20 +907,17 @@ img { max-width: 100%; }
 </header>
 <nav class="tsd-navigation secondary">
 	<ul>
-		<li class="current tsd-kind-class tsd-is-private">
-			<a href="matchcondition.html" class="tsd-kind-icon">Match<wbr>Condition</a>
+		<li class="current tsd-kind-class">
+			<a href="abstractaggregationsource.html" class="tsd-kind-icon">Abstract<wbr>Aggregation<wbr>Source</a>
 			<ul>
-				<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
-					<a href="matchcondition.html#constructor" class="tsd-kind-icon">constructor</a>
+				<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+					<a href="abstractaggregationsource.html#pipe" class="tsd-kind-icon">pipe</a>
 				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-					<a href="matchcondition.html#op" class="tsd-kind-icon">op</a>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="abstractaggregationsource.html#sink" class="tsd-kind-icon">sink</a>
 				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-					<a href="matchcondition.html#value" class="tsd-kind-icon">value</a>
-				</li>
-				<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-					<a href="matchcondition.html#tojson" class="tsd-kind-icon">toJSON</a>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="abstractaggregationsource.html#tojson" class="tsd-kind-icon">toJSON</a>
 				</li>
 			</ul>
 		</li>
@@ -931,8 +928,7 @@ img { max-width: 100%; }
 		<section class="tsd-panel tsd-comment">
 			<div class="tsd-comment tsd-typography">
 				<div class="lead">
-					<p>Abstract class for &#39;Match&#39; conditions - the conditions that are base on a set
-					of conditions</p>
+					<p>Abstract class for aggregation sources</p>
 				</div>
 			</div>
 		</section>
@@ -940,128 +936,124 @@ img { max-width: 100%; }
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
 				<li>
-					<a href="basecondition.html" class="tsd-signature-type">BaseCondition</a>
-					<ul class="tsd-hierarchy">
-						<li>
-							<span class="target">MatchCondition</span>
-							<ul class="tsd-hierarchy">
-								<li>
-									<a href="allcondition.html" class="tsd-signature-type">AllCondition</a>
-								</li>
-								<li>
-									<a href="anycondition.html" class="tsd-signature-type">AnyCondition</a>
-								</li>
-							</ul>
-						</li>
-					</ul>
+					<span class="target">AbstractAggregationSource</span>
 				</li>
+			</ul>
+		</section>
+		<section class="tsd-panel">
+			<h3>Implemented by</h3>
+			<ul class="tsd-hierarchy">
+				<li><a href="abstractaggregation.html" class="tsd-signature-type">AbstractAggregation</a></li>
+				<li><a href="bucketsaggregation.html" class="tsd-signature-type">BucketsAggregation</a></li>
 			</ul>
 		</section>
 		<section class="tsd-panel-group tsd-index-group">
 			<h2>Index</h2>
 			<section class="tsd-panel tsd-index-panel">
 				<div class="tsd-index-content">
-					<section class="tsd-index-section tsd-is-inherited">
-						<h3>Constructors</h3>
-						<ul class="tsd-index-list">
-							<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="matchcondition.html#constructor" class="tsd-kind-icon">constructor</a></li>
-						</ul>
-					</section>
-					<section class="tsd-index-section ">
-						<h3>Properties</h3>
-						<ul class="tsd-index-list">
-							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="matchcondition.html#op" class="tsd-kind-icon">op</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="matchcondition.html#value" class="tsd-kind-icon">value</a></li>
-						</ul>
-					</section>
 					<section class="tsd-index-section ">
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="matchcondition.html#tojson" class="tsd-kind-icon">toJSON</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="abstractaggregationsource.html#pipe" class="tsd-kind-icon">pipe</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="abstractaggregationsource.html#sink" class="tsd-kind-icon">sink</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="abstractaggregationsource.html#tojson" class="tsd-kind-icon">toJSON</a></li>
 						</ul>
 					</section>
-				</div>
-			</section>
-		</section>
-		<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
-			<h2>Constructors</h2>
-			<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
-				<a name="constructor" class="tsd-anchor"></a>
-				<h3>constructor</h3>
-				<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
-					<li class="tsd-signature tsd-kind-icon">new <wbr>Match<wbr>Condition<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="../globals.html#value" class="tsd-signature-type">Value</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="matchcondition.html" class="tsd-signature-type">MatchCondition</a></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<p>Inherited from <a href="basecondition.html">BaseCondition</a>.<a href="basecondition.html#constructor">constructor</a></p>
-							<ul>
-								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/b041a1c/lib/Conditions.ts#L178">Conditions.ts:178</a></li>
-							</ul>
-						</aside>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5>value: <a href="../globals.html#value" class="tsd-signature-type">Value</a></h5>
-							</li>
-						</ul>
-						<h4 class="tsd-returns-title">Returns <a href="matchcondition.html" class="tsd-signature-type">MatchCondition</a></h4>
-					</li>
-				</ul>
-			</section>
-		</section>
-		<section class="tsd-panel-group tsd-member-group ">
-			<h2>Properties</h2>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-				<a name="op" class="tsd-anchor"></a>
-				<h3>op</h3>
-				<div class="tsd-signature tsd-kind-icon">op<span class="tsd-signature-symbol">:</span> <a href="../globals.html#matchoperation" class="tsd-signature-type">MatchOperation</a></div>
-				<aside class="tsd-sources">
-					<p>Overrides <a href="basecondition.html">BaseCondition</a>.<a href="basecondition.html#op">op</a></p>
-					<ul>
-						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/b041a1c/lib/Conditions.ts#L191">Conditions.ts:191</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-				<a name="value" class="tsd-anchor"></a>
-				<h3>value</h3>
-				<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <a href="../globals.html#condition" class="tsd-signature-type">Condition</a><span class="tsd-signature-symbol">[]</span></div>
-				<aside class="tsd-sources">
-					<p>Overrides <a href="basecondition.html">BaseCondition</a>.<a href="basecondition.html#value">value</a></p>
-					<ul>
-						<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/b041a1c/lib/Conditions.ts#L196">Conditions.ts:196</a></li>
-					</ul>
-				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>list of sub-conditions</p>
-					</div>
-					<dl class="tsd-comment-tags">
-						<dt>type</dt>
-						<dd><p>{Condition[]}</p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Methods</h2>
-			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-				<a name="tojson" class="tsd-anchor"></a>
-				<h3>toJSON</h3>
-				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-					<li class="tsd-signature tsd-kind-icon">toJSON<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/matchconditionjson.html" class="tsd-signature-type">MatchConditionJSON</a></li>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+				<a name="pipe" class="tsd-anchor"></a>
+				<h3>pipe</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+					<li class="tsd-signature tsd-kind-icon">pipe&lt;T&gt;<span class="tsd-signature-symbol">(</span>aggregation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
-							<p>Overrides <a href="basecondition.html">BaseCondition</a>.<a href="basecondition.html#tojson">toJSON</a></p>
 							<ul>
-								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/b041a1c/lib/Conditions.ts#L197">Conditions.ts:197</a></li>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/b041a1c/lib/Aggregations.ts#L105">Aggregations.ts:105</a></li>
 							</ul>
 						</aside>
-						<h4 class="tsd-returns-title">Returns <a href="../interfaces/matchconditionjson.html" class="tsd-signature-type">MatchConditionJSON</a></h4>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Set a downstream aggregation</p>
+							</div>
+							<dl class="tsd-comment-tags">
+								<dt>template</dt>
+								<dd><p>T</p>
+								</dd>
+								<dt>memberof</dt>
+								<dd><p>AbstractAggregation</p>
+								</dd>
+							</dl>
+						</div>
+						<h4 class="tsd-type-parameters-title">Type parameters</h4>
+						<ul class="tsd-type-parameters">
+							<li>
+								<h4>T<span class="tsd-signature-symbol">: </span><a href="abstractaggregation.html" class="tsd-signature-type">AbstractAggregation</a></h4>
+							</li>
+						</ul>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>aggregation: <span class="tsd-signature-type">T</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+						<p>the aggregation for chaining</p>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="sink" class="tsd-anchor"></a>
+				<h3>sink</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">sink<span class="tsd-signature-symbol">(</span>aggs<span class="tsd-signature-symbol">?: </span><a href="abstractaggregation.html" class="tsd-signature-type">AbstractAggregation</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/b041a1c/lib/Aggregations.ts#L95">Aggregations.ts:95</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<dl class="tsd-comment-tags">
+								<dt>template</dt>
+								<dd><p>T</p>
+								</dd>
+								<dt>memberof</dt>
+								<dd><p>AbstractAggregation</p>
+								</dd>
+							</dl>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> aggs: <a href="abstractaggregation.html" class="tsd-signature-type">AbstractAggregation</a><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="tojson" class="tsd-anchor"></a>
+				<h3>toJSON</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">toJSON<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/BeameryHQ/QueryCraft/blob/b041a1c/lib/Aggregations.ts#L109">Aggregations.ts:109</a></li>
+							</ul>
+						</aside>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 					</li>
 				</ul>
 			</section>

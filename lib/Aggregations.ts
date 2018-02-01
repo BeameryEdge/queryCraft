@@ -166,7 +166,21 @@ export type BucketsJSON = AggregationJSON<BucketsAggregation> & {
 
 /**
  * Abstract class for an Aggregation
+ * Example:-
  *
+ * ```ts
+ * const output = new SomeSource()
+ * .pipe(new FilterAggregation())
+ * .where('age', gt(18))
+ * .pipe(new BucketsAggregation({
+ *     fieldId: 'name',
+ *     subBuckets: {
+ *         fieldId: 'age',
+ *         interval: 10
+ *     }
+ * }))
+ * .sink()
+ * ```
  * @export
  * @abstract
  * @class AbstractAggregation
