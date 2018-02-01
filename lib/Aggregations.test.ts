@@ -1,8 +1,14 @@
 import "mocha"
 import { assert } from "chai"
-import { FilterAggregation, BucketsAggregation, AbstractAggregation, AggregationJSON, BucketsJSON } from './Aggregations'
+import { FilterAggregation, BucketsAggregation, AbstractAggregation, AggregationJSON, BucketsJSON, AbstractAggregationSource } from './Aggregations'
 import { FilterBuilder, FilterJSON } from "./Filter";
 import { gt } from "./Conditions";
+
+class DumbSource extends AbstractAggregationSource {
+    sink(aggs: AbstractAggregation[]): string[] {
+        return aggs.map(agg => agg.type)
+    }
+}
 
 describe('Aggregations', function(){
     describe('FilterAggregation', function(){
@@ -36,7 +42,7 @@ describe('Aggregations', function(){
                 sortDir: "DESC",
                 limit: 100,
                 sortFieldId: "id"
-            } as FilterJSON & AggregationJSON
+            } as  AggregationJSON<FilterJSON>
             const aggs: any = FilterAggregation.fromJSON(json)
 
             assert.deepEqual(aggs, new FilterAggregation().where('age', gt(18)))
@@ -55,7 +61,7 @@ describe('Aggregations', function(){
             const json = {
                 type: "buckets",
                 fieldId: "lastName"
-            } as BucketsJSON & AggregationJSON
+            } as BucketsJSON & AggregationJSON<BucketsJSON>
             const aggs: any = BucketsAggregation.fromJSON(json)
 
             assert.deepEqual(aggs, new BucketsAggregation({ fieldId: "lastName" }))
@@ -147,5 +153,35 @@ describe('Aggregations', function(){
                 interval: 10
             }
         })
+    })
+
+    it('should allow us to sink an Aggregation pipeline', function(){
+        const output: string[] = new DumbSource()
+        .pipe(new FilterAggregation())
+        .where('age', gt(18))
+        .pipe(new BucketsAggregation({
+            fieldId: 'name',
+            subBuckets: {
+                fieldId: 'age',
+                interval: 10
+            }
+        }))
+        .sink()
+
+        assert.deepEqual(output, ['filter', 'buckets'])
+    })
+
+    it('should not allow us to sink an Aggregation pipeline without a source', function(){
+        const pipeline = new FilterAggregation()
+        .where('age', gt(18))
+        .pipe(new BucketsAggregation({
+            fieldId: 'name',
+            subBuckets: {
+                fieldId: 'age',
+                interval: 10
+            }
+        }))
+
+        assert.throws(() => pipeline.sink())
     })
 })

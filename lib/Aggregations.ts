@@ -1,26 +1,44 @@
 import { FilterBuilder, FilterJSON } from "./Filter";
 
 /**
+ * Mixin Decorator
+ *
+ * @param {Function[]} baseCtors
+ * @returns
+ */
+function Mixin(baseCtors: Function[]) {
+    return function (derivedCtor: Function) {
+        baseCtors.forEach(baseCtor => {
+            Object.getOwnPropertyNames(baseCtor.prototype).forEach(name => {
+                if (!derivedCtor.prototype[name]) {
+                    derivedCtor.prototype[name] = baseCtor.prototype[name];
+                }
+            });
+        });
+    };
+ }
+
+/**
  * The JSON format of an aggregation object
  *
  * @export
  * @interface AggregationJSON
  */
-export interface AggregationJSON {
+export type AggregationJSON<T> = T & {
     /**
      * Unique string for each aggregation type
      *
      * @type {string}
      * @memberOf AggregationJSON
      */
-    type: string
+    readonly type: string
     /**
      * The data source of the aggregation
      *
      * @type {AggregationJSON}
      * @memberOf AggregationJSON
      */
-    source?: AggregationJSON
+    source?: AggregationJSON<any>
 }
 
 /**
@@ -59,6 +77,38 @@ export interface BasicBucketsOptions {
      * @memberOf BasicBucketsOptions
      */
     subBuckets?: BucketsOptions
+}
+
+/**
+ * Abstract class for aggregation sources
+ */
+export abstract class AbstractAggregationSource {
+    /**
+     *
+     *
+     * @template T
+     * @param {AbstractAggregation[]} [aggs=[]]
+     * @returns {T}
+     *
+     * @memberOf AbstractAggregation
+     */
+    abstract sink(aggs?: AbstractAggregation[]): any
+    /**
+     * Set a downstream aggregation
+     *
+     * @template T
+     * @param {T} aggregation
+     * @returns the aggregation for chaining
+     *
+     * @memberOf AbstractAggregation
+     */
+    pipe<T extends AbstractAggregation>(aggregation: T){
+        aggregation.source = this
+        return aggregation
+    }
+    toJSON(): any {
+        return undefined
+    }
 }
 
 
@@ -103,7 +153,7 @@ export type IntervalBucketsOptions = HistogramBucketsOptions | DateHistogramBuck
 
 export type BucketsOptions = ClassBucketsOptions | IntervalBucketsOptions
 
-export interface BucketsJSON extends AggregationJSON {
+export type BucketsJSON = AggregationJSON<BucketsAggregation> & {
     fieldId: string
     size?: number
     values?: string[]
@@ -114,97 +164,112 @@ export interface BucketsJSON extends AggregationJSON {
     subBuckets?: BucketsJSON
 }
 
-export interface AbstractAggregation extends AggregationJSON {}
 /**
  * Abstract class for an Aggregation
  *
  * @export
  * @abstract
  * @class AbstractAggregation
+ * @implements {AbstractAggregationSource}
  * @implements {AggregationJSON}
  */
-export abstract class AbstractAggregation implements AggregationJSON {
+@Mixin([AbstractAggregationSource])
+export abstract class AbstractAggregation implements AbstractAggregationSource, AggregationJSON<{}> {
+    pipe: <T extends AbstractAggregation>(aggregation: T) => T
+    sink(aggs: AbstractAggregation[] = []): any {
+        if (!this.source) {
+            throw new Error('Cannot sink a pipeline as ' + this.type + ' has no source')
+        }
+        return this.source.sink([this, ...aggs])
+    }
+    abstract type: string
     /**
      * The source aggregation for this aggregation to be applied to
      *
      * @type {AbstractAggregation}
      * @memberOf AbstractAggregation
      */
-    source: AbstractAggregation
-    /**
-     * Set a downstream aggregation
-     *
-     * @template T
-     * @param {T} aggregation
-     * @returns the aggregation for chaining
-     *
-     * @memberOf AbstractAggregation
-     */
-    pipe<T extends AbstractAggregation>(aggregation: T){
-        aggregation.source = this
-        return aggregation
-    }
+    source: AbstractAggregation | AbstractAggregationSource
     toJSON(){
-        const json: AggregationJSON = Object.assign({}, this)
+        const json: AggregationJSON<{}> = Object.assign({}, this)
         if (json.source) {
             json.source = this.source.toJSON()
         }
         return json
     }
+    static fromJSON(json: AggregationJSON<any>): Aggregation {
+        switch (json.type) {
+            case 'filter':
+                return FilterAggregation.fromJSON(json)
+            case 'buckets':
+                return BucketsAggregation.fromJSON(json)
+            default:
+                throw new Error('Unknown aggregation type');
+        }
+    }
 }
-export interface FilterAggregation extends AggregationJSON {}
+
 /**
  * An aggregator for filtering results
  *
  * @export
  * @class FilterAggregation
  * @extends {FilterBuilder}
+ * @implements {AbstractAggregation}
  * @implements {FilterJSON}
  * @implements {AggregationJSON}
  */
-export class FilterAggregation extends FilterBuilder implements FilterJSON, AggregationJSON {
-    type = 'filter'
+@Mixin([AbstractAggregation])
+export class FilterAggregation extends FilterBuilder implements AbstractAggregation, FilterJSON, AggregationJSON<FilterJSON> {
+    sink: <T>(aggs: AbstractAggregation[]) => T
+    pipe: <T extends AbstractAggregation>(aggregation: T) => T
+    source: AbstractAggregation
+    readonly type = 'filter'
     /**
      * The source aggregation for this aggregation to be applied to
      *
      * @type {AbstractAggregation}
      * @memberOf AbstractAggregation
      */
-    source: AbstractAggregation
-    /**
-     * Set a downstream aggregation
-     *
-     * @template T
-     * @param {T} aggregation
-     * @returns
-     *
-     * @memberOf AbstractAggregation
-     */
-    pipe<T extends AbstractAggregation>(aggregation: T){
-        aggregation.source = this
-        return aggregation
+    toJSON(): AggregationJSON<FilterJSON> {
+        const json: AggregationJSON<FilterJSON> = FilterBuilder.prototype.toJSON.apply(this)
+        return Object.assign(json, { type: 'filter' })
     }
-    toJSON() {
-        const json = super.toJSON() as FilterJSON & AggregationJSON
-        json.type = this.type
-        return json
-    }
-    static fromJSON(json: FilterJSON & AggregationJSON){
+    static fromJSON(json: AggregationJSON<FilterJSON>): FilterAggregation {
         return Object.assign(new FilterAggregation(), json)
     }
 }
 
-
-export interface BucketsAggregation extends BucketsJSON {}
-export class BucketsAggregation extends AbstractAggregation implements BucketsJSON {
+/**
+ * An aggregator for bucketing similar objects
+ *
+ * @export
+ * @class BucketsAggregation
+ * @extends {AbstractAggregation}
+ * @implements {AggregationJSON<BucketsJSON>}
+ */
+export class BucketsAggregation extends AbstractAggregation implements AggregationJSON<BucketsJSON> {
     type = 'buckets'
     source: AbstractAggregation
+    fieldId: string
+    size?: number
+    values?: string[]
+    interval?: number
+    dateInterval?: "year"|"month"|"day"|"dayOfMonth"|"hour"|"minute"|"second"|"millisecond"
+    subFieldIds?: string[]
+    subFieldProp?: string
+    subBuckets?: BucketsJSON
     constructor(opts: BucketsOptions){
         super()
         Object.assign(this, opts)
     }
-    static fromJSON(json: BucketsJSON & AggregationJSON){
-        return Object.assign(new BucketsAggregation(json))
+    static fromJSON<T extends BucketsJSON>(json: AggregationJSON<T>): BucketsAggregation {
+        const aggs = new BucketsAggregation(json)
+        if (json.source){
+            aggs.source = AbstractAggregation.fromJSON(json.source)
+        }
+        return aggs
     }
 }
 
+export type Aggregation = FilterAggregation | BucketsAggregation
