@@ -190,11 +190,11 @@ export type BucketsJSON = AggregationJSON<BucketsAggregation> & {
 @Mixin([AbstractAggregationSource])
 export abstract class AbstractAggregation implements AbstractAggregationSource, AggregationJSON<{}> {
     pipe: <T extends AbstractAggregation>(aggregation: T) => T
-    sink(aggs: AbstractAggregation[] = []): any {
+    sink(aggs?: AbstractAggregation[]): any {
         if (!this.source) {
             throw new Error('Cannot sink a pipeline as ' + this.type + ' has no source')
         }
-        return this.source.sink([this, ...aggs])
+        return this.source.sink([this, ...(aggs||[])])
     }
     abstract type: string
     /**
