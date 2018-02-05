@@ -144,9 +144,9 @@ export type DateHistogramBucketsOptions = ClassBucketsOptions & {
     /**
      * The time interval size of a bucket for the date-histogram
      *
-     * @type {("year"|"month"|"day"|"dayOfMonth"|"hour"|"minute"|"second"|"millisecond")}
+     * @type {("year"|"month"|"day"|"hour"|"minute"|"second"|"millisecond")}
      */
-    dateInterval: "year"|"month"|"day"|"dayOfMonth"|"hour"|"minute"|"second"|"millisecond"
+    dateInterval: "year"|"month"|"day"|"hour"|"minute"|"second"|"millisecond"
 }
 
 export type IntervalBucketsOptions = HistogramBucketsOptions | DateHistogramBucketsOptions
@@ -158,7 +158,7 @@ export type BucketsJSON = AggregationJSON<BucketsAggregation> & {
     size?: number
     values?: string[]
     interval?: number
-    dateInterval?: "year"|"month"|"day"|"dayOfMonth"|"hour"|"minute"|"second"|"millisecond"
+    dateInterval?: "year"|"month"|"day"|"hour"|"minute"|"second"|"millisecond"
     subFieldIds?: string[]
     subFieldProp?: string
     subBuckets?: BucketsJSON
@@ -269,7 +269,7 @@ export class BucketsAggregation extends AbstractAggregation implements Aggregati
     size?: number
     values?: string[]
     interval?: number
-    dateInterval?: "year"|"month"|"day"|"dayOfMonth"|"hour"|"minute"|"second"|"millisecond"
+    dateInterval?: "year"|"month"|"day"|"hour"|"minute"|"second"|"millisecond"
     subFieldIds?: string[]
     subFieldProp?: string
     subBuckets?: BucketsJSON
