@@ -12,7 +12,7 @@
     "prebuild": "npm run test",
     "build": "tsc",
     "postbuild": "npm run docs",
-    "start": "mocha --watch",
+    "start": "mocha --watch lib/*.* --watch-extensions ts",
     "predocs": "rm -rf docs/",
     "docs": "typedoc --excludeExternals --exclude '**/*.test.ts' --mode file --theme minimal --out ./docs --tsconfig tsconfig.json lib/",
     "postdocs": "touch docs/.nojekyll",
