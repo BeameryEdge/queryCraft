@@ -235,7 +235,7 @@ export abstract class AbstractAggregation implements AbstractAggregationSource, 
  */
 @Mixin([AbstractAggregation])
 export class FilterAggregation extends FilterBuilder implements AbstractAggregation, FilterJSON, AggregationJSON<FilterJSON> {
-    sink: <T>(aggs: AbstractAggregation[]) => T
+    sink: <T>(aggs?: AbstractAggregation[]) => T
     pipe: <T extends AbstractAggregation>(aggregation: T) => T
     source: AbstractAggregation
     readonly type = 'filter'
