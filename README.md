@@ -6,6 +6,8 @@
 [![David deps](https://david-dm.org/BeameryHQ/QueryCraft.svg)](https://david-dm.org/BeameryHQ/QueryCraft)
 [![Known Vulnerabilities](https://snyk.io/test/github/beameryhq/querycraft/badge.svg)](https://snyk.io/test/github/beameryhq/querycraft)
 
+> Read the full story in [our blog](https://medium.com/hacking-talent/hustlers-hackers-and-the-data-gold-rush-ab006e7ae976)
+
 ## What are we trying to solve?
 The role of data in the digital age is very much like gold in the wild west. It has the potential to bring untold benefits to those with the wit, wile and determination to find the nuggets of valuable information among the, large expanse of unordered mess; but also hold the potential to attract the overly enthusiastic optimist to invest large amount of time and money rifling through mud.
 
