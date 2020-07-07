@@ -40,7 +40,7 @@
     "install": "^0.10.1",
     "mocha": "^4.0.1",
     "mocha-junit-reporter": "^1.15.0",
-    "npm": "^5.5.1",
+    "npm": "^6.14.6",
     "nyc": "^11.3.0",
     "source-map-support": "^0.5.0",
     "ts-node": "^3.3.0",
